@@ -1,0 +1,13 @@
+filters:
+  and:
+    - 'file.name == "Example meeting"'
+views:
+  - type: nosy-calendar
+    name: Example calendar
+    calendarRoles:
+      - id: example-scheduled
+        label: Scheduled
+        startProperty: note.scheduled
+        endProperty: note.deadline
+        edgeColor: '#6750a4'
+        rollPastDates: false

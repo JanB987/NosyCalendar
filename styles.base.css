@@ -1,0 +1,128 @@
+.nosy-calendar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 320px;
+  min-width: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: auto;
+  color: var(--text-normal);
+  background: var(--background-primary);
+  --fc-border-color: var(--background-modifier-border);
+  --fc-page-bg-color: var(--background-primary);
+  --fc-neutral-bg-color: var(--background-secondary);
+  --fc-neutral-text-color: var(--text-muted);
+  --fc-today-bg-color: var(--background-modifier-hover);
+  --fc-list-event-hover-bg-color: var(--background-modifier-hover);
+  --fc-button-bg-color: var(--interactive-normal);
+  --fc-button-text-color: var(--text-normal);
+  --fc-button-border-color: var(--background-modifier-border);
+  --fc-button-hover-bg-color: var(--interactive-hover);
+  --fc-button-hover-border-color: var(--background-modifier-border-hover);
+  --fc-button-active-bg-color: var(--interactive-accent);
+  --fc-button-active-border-color: var(--interactive-accent);
+  --fc-event-bg-color: var(--interactive-accent);
+  --fc-event-border-color: var(--interactive-accent);
+  --fc-event-text-color: var(--text-on-accent);
+  --fc-small-font-size: 0.85em;
+}
+.nosy-calendar-status {
+  flex: none;
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.nosy-calendar-host { flex: 1 1 auto; min-height: 260px; min-width: 0; }
+.nosy-calendar .fc { font-family: var(--font-interface); font-size: var(--font-ui-small); }
+.nosy-calendar .fc .fc-toolbar { flex-wrap: wrap; gap: 8px; }
+.nosy-calendar .fc .fc-toolbar-title { font-size: 1.2em; }
+.nosy-calendar .fc .fc-button { padding: 4px 8px; height: auto; box-shadow: none; }
+.nosy-calendar .fc .fc-button-primary:not(:disabled).fc-button-active { color: var(--text-on-accent); }
+.nosy-calendar .fc-event { cursor: pointer; }
+.nosy-calendar .fc-event:focus-visible { outline: 2px solid var(--text-normal); outline-offset: 2px; }
+.nosy-calendar .fc .fc-daygrid-event { white-space: normal; }
+.nosy-calendar .fc .fc-daygrid-dot-event { color: var(--text-normal); }
+.nosy-calendar .fc .fc-popover { background: var(--background-primary); color: var(--text-normal); max-height: 70vh; overflow: auto; }
+.nosy-calendar .fc .fc-multimonth { background: var(--background-primary); }
+.nosy-calendar .fc .fc-multimonth-daygrid { background: var(--background-primary); }
+.nosy-calendar .fc .fc-h-event.nosy-resize-enabled { min-height: 22px; min-width: 24px; }
+.nosy-calendar .fc .fc-h-event.nosy-resize-enabled .fc-event-main { min-height: 20px; position: relative; }
+.nosy-calendar .fc .nosy-resize-enabled .fc-event-resizer {
+  display: block;
+  z-index: 5;
+  opacity: 0;
+  background: var(--text-on-accent);
+  border: 1px solid var(--background-primary);
+  border-radius: 3px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.nosy-calendar .fc .nosy-resize-enabled:hover .fc-event-resizer { opacity: 1; pointer-events: auto; }
+.nosy-calendar .fc .fc-h-event.fc-event.nosy-resize-enabled .fc-event-resizer {
+  width: 8px; height: calc(100% - 4px); top: 2px; margin: 0; cursor: ew-resize;
+}
+.nosy-calendar .fc .fc-h-event.fc-event.nosy-resize-enabled .fc-event-resizer-start { left: 0; right: auto; }
+.nosy-calendar .fc .fc-h-event.fc-event.nosy-resize-enabled .fc-event-resizer-end { right: 0; left: auto; }
+.nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer {
+  height: 8px; width: auto; left: 0; right: 0; margin: 0; cursor: ns-resize;
+}
+.nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer-start { top: 0; bottom: auto; }
+.nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer-end { bottom: 0; top: auto; }
+.nosy-calendar .fc .nosy-continuation-start .fc-event-resizer-start,
+.nosy-calendar .fc .nosy-continuation-end .fc-event-resizer-end,
+.nosy-calendar .fc .fc-event-mirror .fc-event-resizer { display: none !important; }
+.modal.nosy-roles-modal { width: min(1200px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+.nosy-role-table-scroll { overflow-x: auto; margin-block: 12px; }
+.nosy-role-editor .nosy-role-table { width: 100%; min-width: 1000px; table-layout: fixed; border-collapse: collapse; }
+.nosy-role-table th, .nosy-role-table td { padding: 10px 8px; text-align: start; vertical-align: middle; border-bottom: 1px solid var(--background-modifier-border); }
+.nosy-role-table th { color: var(--text-muted); font-size: var(--font-ui-small); font-weight: var(--font-semibold); }
+.nosy-role-table th:nth-child(1) { width: 16%; }
+.nosy-role-table th:nth-child(2), .nosy-role-table th:nth-child(3) { width: 21%; }
+.nosy-role-table th:nth-child(4) { width: 20%; }
+.nosy-role-table th:nth-child(5) { width: 15%; }
+.nosy-role-table th:nth-child(6) { width: 7%; }
+.nosy-role-table td:nth-child(5) { text-align: center; }
+.nosy-role-editor .nosy-role-row input[type=text] { width: 100%; min-width: 0; }
+.nosy-role-property, .nosy-role-color, .nosy-role-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.nosy-role-property { flex-wrap: nowrap; }
+.nosy-role-property button:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; white-space: normal; height: auto; min-height: 28px; }
+.nosy-role-actions { justify-content: flex-end; margin-top: 16px; }
+.nosy-role-shared { color: var(--text-muted); font-size: var(--font-ui-small); }
+.nosy-calendar .nosy-rolled-label { display: inline-block; margin-inline: 4px; padding-inline: 3px; border: 1px solid currentColor; border-radius: 3px; font-size: 0.85em; }
+.nosy-calendar .nosy-original-dates { display: block; font-size: 0.8em; overflow: hidden; text-overflow: ellipsis; }
+.modal.nosy-colors-modal { width: min(1200px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+.nosy-color-table { width: 100%; min-width: 1000px; border-collapse: collapse; }
+.nosy-color-table th, .nosy-color-table td { padding: 10px 8px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--background-modifier-border); }
+.nosy-color-table th { color: var(--text-muted); }
+.nosy-color-table td:first-child button { max-width: 230px; white-space: normal; height: auto; min-height: 28px; overflow-wrap: anywhere; }
+.nosy-color-value { display: flex; flex-wrap: wrap; gap: 6px; max-width: 360px; }
+.nosy-color-value input { width: 100%; }
+.nosy-color-value [hidden] { display: none; }
+.nosy-color-help { color: var(--text-muted); font-size: var(--font-ui-small); }
+.nosy-rule-feedback { flex-basis: 100%; margin-block: 4px; color: var(--text-muted); font-size: var(--font-ui-small); }
+.nosy-calendar .fc .nosy-custom-fill .fc-event-resizer { background: var(--nosy-event-ink); }
+/* Also applies to FullCalendar's floating body-drag clone outside the calendar root. */
+.nosy-role-event, .nosy-role-event .fc-event-main { overflow: visible; }
+.nosy-role-event .fc-event-main { position: relative; }
+.nosy-role-label {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  transform: translateY(-60%);
+  z-index: 4;
+  max-width: calc(100% - 12px);
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: max(8px, calc(1em - 2pt));
+  line-height: 1.2;
+  padding: 0 4px;
+  border: 1px solid var(--nosy-role-edge, var(--fc-event-border-color, currentColor));
+  border-radius: 3px;
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #222);
+  pointer-events: none;
+}
+.nosy-calendar .fc .fc-daygrid-event.nosy-role-event { margin-top: 8px; }

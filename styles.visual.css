@@ -1,0 +1,57 @@
+/* Public --nosy-calendar-* variables inherit from Style Settings on body.
+   Only internal --nc-* fallbacks are resolved locally. Semantic inline rule/role colors win. */
+.nosy-calendar, .nosy-event {
+  --fc-event-bg-color: var(--nc-event-fill);
+  --fc-event-border-color: var(--nc-event-edge);
+  --fc-event-text-color: var(--nc-event-text);
+}
+.nosy-calendar { background: var(--background-primary, #fff); color: var(--text-normal, #222); }
+.nosy-calendar .fc { font-family: var(--font-interface, system-ui); --fc-border-color: var(--nc-grid-horizontal); }
+.nosy-calendar .fc .fc-toolbar { margin-bottom: 12px; align-items: center; }
+.nosy-calendar .fc .fc-toolbar-chunk { display: flex; align-items: center; flex-wrap: wrap; }
+.nosy-calendar .fc .fc-toolbar-title { line-height: 1.3; color: var(--nc-toolbar-fg); }
+.nosy-calendar .fc .fc-button { color: var(--nc-toolbar-fg); background: var(--nc-toolbar-bg); border-color: var(--nc-toolbar-border); min-height: 28px; }
+.nosy-calendar .fc .fc-button-primary:hover { background: var(--interactive-hover, #ddd); }
+.nosy-calendar .fc .fc-button-primary:not(:disabled).fc-button-active { background: var(--interactive-accent, #6750a4); color: var(--text-on-accent, #fff); }
+.nosy-calendar .fc .fc-col-header-cell { background: var(--nc-header-bg); border-bottom-color: var(--nc-header-separator); }
+.nosy-calendar .fc .fc-col-header-cell-cushion { display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 5px; text-decoration: none; }
+.nosy-weekday { color: var(--nc-weekday-fg); }
+.nosy-header-date { color: var(--nc-header-date-fg); }
+.nosy-calendar .fc .fc-daygrid-day-number { color: var(--nc-day-fg); padding: 5px 7px; }
+.nosy-calendar .fc .fc-day-today .fc-daygrid-day-number { color: var(--nc-today-fg); }
+.nosy-calendar .fc .fc-day-other .fc-daygrid-day-number { color: var(--nc-outside-fg); opacity: 1; }
+.nosy-calendar .fc .fc-day-other .fc-daygrid-day-top { opacity: 1; }
+.nosy-calendar .fc .fc-multimonth-title { color: var(--nc-month-title-fg); text-align: start; padding: 12px 8px; }
+.nosy-calendar .fc td, .nosy-calendar .fc th { border-top-color: var(--nc-grid-horizontal); border-bottom-color: var(--nc-grid-horizontal); border-left-color: var(--nc-grid-vertical); border-right-color: var(--nc-grid-vertical); }
+.nosy-calendar .fc .fc-timegrid-slot-minor { border-top-style: solid; border-top-color: var(--nc-minor-line); }
+.nosy-calendar .fc .fc-timegrid-slot:not(.fc-timegrid-slot-minor) { border-top-color: var(--nc-major-line); }
+.nosy-calendar .fc .fc-timegrid-col { border-inline-color: var(--nc-day-separator); }
+.nosy-calendar .fc .fc-scrollgrid, .nosy-calendar .fc .fc-multimonth { border-color: var(--nc-frame); }
+.nosy-event { font-family: var(--font-interface, system-ui); border-style: solid; background-color: var(--nc-event-fill); border-color: var(--nc-event-edge); }
+.nosy-event .fc-event-main { color: var(--nc-event-text); box-sizing: border-box; }
+.nosy-event .nosy-event-copy { height: 100%; overflow: hidden; }
+.nosy-event .fc-event-title { display: inline; line-height: inherit; }
+.nosy-event .nosy-event-time { display: inline; margin-inline-start: 4px; line-height: inherit; }
+.nosy-calendar .fc .fc-h-event.nosy-resize-enabled .fc-event-main { min-height: 0; }
+.nosy-calendar .fc .fc-daygrid-event.nosy-role-event { margin-top: max(8px, calc(0px - var(--nosy-calendar-badge-offset, -6px) + var(--nosy-calendar-badge-padding-y, 0px))); }
+.nosy-role-label { transform: translateY(var(--nc-badge-offset, -6px)); background: var(--nc-badge-bg); color: var(--nc-badge-fg); border-color: var(--nosy-role-edge, var(--nc-event-edge)); }
+.nosy-rolled-event .nosy-role-label::before { content: '↻ '; }
+.nosy-calendar .fc .fc-timegrid-slot-label { background: var(--nc-axis-bg); color: var(--nc-axis-fg); }
+.nosy-calendar .fc .fc-timegrid-axis { background: var(--nc-all-day-bg); color: var(--nc-all-day-fg); }
+.nosy-calendar .fc .fc-timegrid-axis-cushion, .nosy-calendar .fc .fc-timegrid-slot-label-cushion { display: inline-block; box-sizing: border-box; }
+.nosy-calendar .fc .fc-daygrid-day.fc-day-sat, .nosy-calendar .fc .fc-daygrid-day.fc-day-sun,
+.nosy-calendar .fc .fc-timegrid-col.fc-day-sat, .nosy-calendar .fc .fc-timegrid-col.fc-day-sun { background: var(--nc-weekend-bg); }
+.nosy-calendar .fc .fc-daygrid-day.fc-day-other { background: var(--nc-outside-bg); }
+.nosy-calendar .fc .fc-daygrid-day.fc-day-today, .nosy-calendar .fc .fc-timegrid-col.fc-day-today { background: var(--nc-today-bg); }
+.nosy-calendar .fc .fc-timegrid-now-indicator-line, .nosy-calendar .fc .fc-timegrid-now-indicator-arrow { border-color: var(--nc-now); }
+.nosy-event:hover, .nosy-calendar .fc .nosy-event:hover { box-shadow: 0 0 0 var(--nc-hover-width, 1px) var(--nc-hover); }
+.nosy-calendar .nosy-event:focus-visible { outline-style: solid; outline-color: var(--nc-focus); outline-offset: 2px; }
+.nosy-calendar .fc .nosy-heading { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
+.nosy-iso-indicator { display: inline-block; color: var(--nc-week-fg); background: var(--nc-week-bg); border: 1px solid var(--nc-week-border); border-radius: 5px; line-height: 1.3; white-space: nowrap; }
+.nosy-calendar .fc .fc-daygrid-week-number { color: var(--nc-week-row-fg); background: var(--nc-week-row-bg); border-radius: 0 0 4px 0; }
+.nosy-calendar .fc .fc-multimonth { padding: 8px; }
+.nosy-calendar .fc .fc-multimonth-month { box-sizing: border-box; }
+.nosy-calendar .fc .fc-more-link, .nosy-calendar .fc .fc-popover { color: var(--nc-overflow-fg); }
+.nosy-calendar .fc .fc-popover { background: var(--nc-popover-bg); border-style: solid; border-color: var(--nc-popover-border); border-radius: 7px; box-shadow: var(--shadow-s, 0 4px 16px #0002); }
+/* Handle hit boxes remain at least 8px, independent of text/grid/edge controls. */
+.nosy-event.nosy-resize-enabled .fc-event-resizer { min-width: 8px; min-height: 8px; }

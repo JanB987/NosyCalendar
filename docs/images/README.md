@@ -1,0 +1,1 @@
+The main README uses the author's existing GitHub screenshot attachment URLs. Keep those URLs intact. This directory is available for future repository-hosted images; no local screenshots are required to build or release.

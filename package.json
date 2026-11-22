@@ -1,0 +1,38 @@
+{
+  "name": "nosy-calendar",
+  "version": "0.7.0",
+  "private": true,
+  "license": "MIT",
+  "repository": "github:JanB987/NosyCalendar",
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "description": "Styled calendar roles, ISO weeks and rescheduling for Obsidian Bases",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check:min-api": "npm ci --prefix tests/minimum-api --ignore-scripts --no-audit --no-fund && tsc --noEmit --project tsconfig.minimum.json",
+    "setup:tests": "node scripts/setup-test-fixtures.mjs",
+    "pretest": "npm run setup:tests",
+    "precheck:browser": "npm run setup:tests",
+    "check:release": "node scripts/check-release.mjs",
+    "check:browser": "node scripts/browser-check.mjs",
+    "build": "node scripts/styles.mjs && npm run typecheck && node esbuild.config.mjs",
+    "test": "node scripts/test.mjs",
+    "deploy": "node scripts/deploy.mjs"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "6.1.20",
+    "@fullcalendar/daygrid": "6.1.20",
+    "@fullcalendar/interaction": "6.1.20",
+    "@fullcalendar/multimonth": "6.1.20",
+    "@fullcalendar/timegrid": "6.1.20"
+  },
+  "devDependencies": {
+    "@types/jsdom": "21.1.7",
+    "@types/node": "22.10.2",
+    "esbuild": "0.25.12",
+    "jsdom": "26.1.0",
+    "obsidian": "1.14.4",
+    "typescript": "5.9.3"
+  }
+}

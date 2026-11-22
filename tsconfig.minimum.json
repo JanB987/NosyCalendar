@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "obsidian": ["tests/minimum-api/node_modules/obsidian/obsidian.d.ts"] }
+  }
+}

@@ -1,0 +1,1622 @@
+/* @settings
+name: NosyCalendar
+id: nosy-calendar
+settings:
+  [
+    {
+      "id": "nosy-calendar-toolbar",
+      "title": "Toolbar",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-title-size",
+      "title": "Period title size",
+      "type": "variable-number-slider",
+      "default": 18,
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-title-weight",
+      "title": "Period title weight",
+      "type": "variable-number-slider",
+      "default": 600,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-button-size",
+      "title": "Button text size",
+      "type": "variable-number-slider",
+      "default": 12,
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-button-weight",
+      "title": "Button text weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-toolbar-border-width",
+      "title": "Button border width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-toolbar-radius",
+      "title": "Button radius",
+      "type": "variable-number-slider",
+      "default": 6,
+      "min": 0,
+      "max": 18,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-toolbar-pad-x",
+      "title": "Button horizontal padding",
+      "type": "variable-number-slider",
+      "default": 9,
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-toolbar-pad-y",
+      "title": "Button vertical padding",
+      "type": "variable-number-slider",
+      "default": 5,
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-toolbar-gap",
+      "title": "Toolbar gaps",
+      "type": "variable-number-slider",
+      "default": 8,
+      "min": 2,
+      "max": 28,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-toolbar-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-toolbar-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-toolbar-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-toolbar-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-toolbar-fg",
+      "title": "Title and button text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#303030",
+      "default-dark": "#ddd"
+    },
+    {
+      "id": "nosy-calendar-toolbar-bg",
+      "title": "Button background",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#eeeeee",
+      "default-dark": "#303030"
+    },
+    {
+      "id": "nosy-calendar-toolbar-border",
+      "title": "Button border",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#d7d7d7",
+      "default-dark": "#444444"
+    },
+    {
+      "id": "nosy-calendar-header",
+      "title": "Top weekday/date header",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-weekday-size",
+      "title": "Weekday text size",
+      "type": "variable-number-slider",
+      "default": 11,
+      "min": 9,
+      "max": 22,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-weekday-weight",
+      "title": "Weekday text weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-header-date-size",
+      "title": "Header date size",
+      "type": "variable-number-slider",
+      "default": 13,
+      "min": 10,
+      "max": 26,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-header-date-weight",
+      "title": "Header date weight",
+      "type": "variable-number-slider",
+      "default": 600,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-header-padding",
+      "title": "Header vertical padding",
+      "type": "variable-number-slider",
+      "default": 8,
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-header-separator-width",
+      "title": "Header separator width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-header-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-header-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-header-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-header-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-header-bg",
+      "title": "Header background",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#f5f5f5",
+      "default-dark": "#262626"
+    },
+    {
+      "id": "nosy-calendar-weekday-fg",
+      "title": "Weekday text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#666666",
+      "default-dark": "#aaa"
+    },
+    {
+      "id": "nosy-calendar-header-date-fg",
+      "title": "Header date text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#222222",
+      "default-dark": "#ddd"
+    },
+    {
+      "id": "nosy-calendar-header-separator",
+      "title": "Header separator",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#dddddd",
+      "default-dark": "#444444"
+    },
+    {
+      "id": "nosy-calendar-dates",
+      "title": "Calendar dates",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-day-size",
+      "title": "Day number size",
+      "type": "variable-number-slider",
+      "default": 12,
+      "min": 9,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-day-weight",
+      "title": "Day number weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-month-title-size",
+      "title": "Year month title size",
+      "type": "variable-number-slider",
+      "default": 15,
+      "min": 11,
+      "max": 28,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-month-title-weight",
+      "title": "Year month title weight",
+      "type": "variable-number-slider",
+      "default": 600,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-dates-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-dates-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-dates-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-dates-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-day-fg",
+      "title": "Day number text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#333333",
+      "default-dark": "#ddd"
+    },
+    {
+      "id": "nosy-calendar-today-fg",
+      "title": "Today number text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#6750a4",
+      "default-dark": "#b6a3ec"
+    },
+    {
+      "id": "nosy-calendar-outside-fg",
+      "title": "Adjacent-month number text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#999999",
+      "default-dark": "#666666"
+    },
+    {
+      "id": "nosy-calendar-month-title-fg",
+      "title": "Year month title text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#222222",
+      "default-dark": "#ddd"
+    },
+    {
+      "id": "nosy-calendar-grid",
+      "title": "Grid and frame",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-grid-horizontal-width",
+      "title": "Horizontal grid width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-grid-vertical-width",
+      "title": "Vertical grid width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-minor-line-width",
+      "title": "Minor time-line width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-major-line-width",
+      "title": "Major time-line width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-day-separator-width",
+      "title": "Time-grid day separator width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-frame-width",
+      "title": "Outer frame width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-grid-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-grid-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-grid-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-grid-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-grid-horizontal",
+      "title": "Horizontal grid lines",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#dddddd",
+      "default-dark": "#3b3b3b"
+    },
+    {
+      "id": "nosy-calendar-grid-vertical",
+      "title": "Vertical grid lines",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#dddddd",
+      "default-dark": "#3b3b3b"
+    },
+    {
+      "id": "nosy-calendar-minor-line",
+      "title": "Minor time lines",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#eeeeee",
+      "default-dark": "#2d2d2d"
+    },
+    {
+      "id": "nosy-calendar-major-line",
+      "title": "Major time lines",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#d7d7d7",
+      "default-dark": "#404040"
+    },
+    {
+      "id": "nosy-calendar-day-separator",
+      "title": "Time-grid day separators",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#dddddd",
+      "default-dark": "#444444"
+    },
+    {
+      "id": "nosy-calendar-frame",
+      "title": "Outer frame",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#d7d7d7",
+      "default-dark": "#444444"
+    },
+    {
+      "id": "nosy-calendar-events",
+      "title": "Events",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-event-title-size",
+      "title": "Event title size",
+      "type": "variable-number-slider",
+      "default": 13,
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-event-title-weight",
+      "title": "Event title weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-event-time-size",
+      "title": "Event time size",
+      "type": "variable-number-slider",
+      "default": 11,
+      "min": 9,
+      "max": 22,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-event-time-weight",
+      "title": "Event time weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-event-padding-x",
+      "title": "Event horizontal padding",
+      "type": "variable-number-slider",
+      "default": 7,
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-event-padding-y",
+      "title": "Event vertical padding",
+      "type": "variable-number-slider",
+      "default": 3,
+      "min": 0,
+      "max": 14,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-event-line-height",
+      "title": "Event line height",
+      "type": "variable-number-slider",
+      "default": 1.25,
+      "min": 1,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "id": "nosy-calendar-event-min-height",
+      "title": "Minimum event height",
+      "type": "variable-number-slider",
+      "default": 28,
+      "min": 24,
+      "max": 80,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-event-gap",
+      "title": "Space between day-grid events",
+      "type": "variable-number-slider",
+      "default": 3,
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-event-radius",
+      "title": "Event corner radius",
+      "type": "variable-number-slider",
+      "default": 5,
+      "min": 0,
+      "max": 18,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-event-edge-width",
+      "title": "Event edge thickness",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-events-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-events-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-events-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-events-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-event-fill",
+      "title": "Fallback fill (rules override)",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#6750a4",
+      "default-dark": "#8065bf"
+    },
+    {
+      "id": "nosy-calendar-event-edge",
+      "title": "Fallback edge (roles override)",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#6750a4",
+      "default-dark": "#8065bf"
+    },
+    {
+      "id": "nosy-calendar-event-text",
+      "title": "Fallback text (rule contrast overrides)",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#ffffff",
+      "default-dark": "#ffffff"
+    },
+    {
+      "id": "nosy-calendar-badges",
+      "title": "Role badges",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-badge-size",
+      "title": "Role badge text size",
+      "type": "variable-number-slider",
+      "default": 10,
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-badge-weight",
+      "title": "Role badge text weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-badge-padding-x",
+      "title": "Badge horizontal padding",
+      "type": "variable-number-slider",
+      "default": 4,
+      "min": 1,
+      "max": 14,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-badge-padding-y",
+      "title": "Badge vertical padding",
+      "type": "variable-number-slider",
+      "default": 0,
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-badge-border-width",
+      "title": "Badge border width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-badge-radius",
+      "title": "Badge corner radius",
+      "type": "variable-number-slider",
+      "default": 4,
+      "min": 0,
+      "max": 14,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-badge-offset",
+      "title": "Badge vertical offset",
+      "type": "variable-number-slider",
+      "default": -6,
+      "min": -16,
+      "max": 6,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-badges-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-badges-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-badges-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-badges-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-badge-fg",
+      "title": "Badge text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#333333",
+      "default-dark": "#ddd"
+    },
+    {
+      "id": "nosy-calendar-badge-bg",
+      "title": "Badge background",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#ffffff",
+      "default-dark": "#202020"
+    },
+    {
+      "id": "nosy-calendar-axis",
+      "title": "Time / all-day axis",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-axis-size",
+      "title": "Time label size",
+      "type": "variable-number-slider",
+      "default": 11,
+      "min": 9,
+      "max": 22,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-axis-weight",
+      "title": "Time label weight",
+      "type": "variable-number-slider",
+      "default": 400,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-all-day-size",
+      "title": "All-day label size",
+      "type": "variable-number-slider",
+      "default": 11,
+      "min": 9,
+      "max": 22,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-all-day-weight",
+      "title": "All-day label weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-axis-width",
+      "title": "Axis label minimum width",
+      "type": "variable-number-slider",
+      "default": 60,
+      "min": 40,
+      "max": 140,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-axis-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-axis-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-axis-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-axis-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-axis-fg",
+      "title": "Time label text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#666666",
+      "default-dark": "#aaa"
+    },
+    {
+      "id": "nosy-calendar-axis-bg",
+      "title": "Time axis background",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#ffffff",
+      "default-dark": "#202020"
+    },
+    {
+      "id": "nosy-calendar-all-day-fg",
+      "title": "All-day label text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#666666",
+      "default-dark": "#aaa"
+    },
+    {
+      "id": "nosy-calendar-all-day-bg",
+      "title": "All-day axis background",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#f5f5f5",
+      "default-dark": "#262626"
+    },
+    {
+      "id": "nosy-calendar-highlights",
+      "title": "Highlights",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-now-width",
+      "title": "Now-line thickness",
+      "type": "variable-number-slider",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-hover-width",
+      "title": "Hover ring thickness",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-focus-width",
+      "title": "Keyboard focus ring thickness",
+      "type": "variable-number-slider",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-highlights-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-highlights-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-highlights-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-highlights-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-today-bg",
+      "title": "Today surface",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#f4f0fc",
+      "default-dark": "#2c2638"
+    },
+    {
+      "id": "nosy-calendar-weekend-bg",
+      "title": "Weekend surface",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#fafafa",
+      "default-dark": "#222222"
+    },
+    {
+      "id": "nosy-calendar-outside-bg",
+      "title": "Adjacent-month surface",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#f5f5f5",
+      "default-dark": "#262626"
+    },
+    {
+      "id": "nosy-calendar-now",
+      "title": "Now indicator",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#d94d4d",
+      "default-dark": "#ec7777"
+    },
+    {
+      "id": "nosy-calendar-hover",
+      "title": "Event hover ring",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#888888",
+      "default-dark": "#aaa"
+    },
+    {
+      "id": "nosy-calendar-focus",
+      "title": "Keyboard focus ring",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#6750a4",
+      "default-dark": "#b6a3ec"
+    },
+    {
+      "id": "nosy-calendar-weeks",
+      "title": "Week indicators",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-week-size",
+      "title": "Top ISO indicator text size",
+      "type": "variable-number-slider",
+      "default": 11,
+      "min": 9,
+      "max": 22,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-week-weight",
+      "title": "Top ISO indicator weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-week-padding",
+      "title": "Top ISO indicator padding",
+      "type": "variable-number-slider",
+      "default": 4,
+      "min": 0,
+      "max": 14,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-week-gap",
+      "title": "Space beside period title",
+      "type": "variable-number-slider",
+      "default": 8,
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-week-border-width",
+      "title": "Top ISO indicator border width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-week-row-size",
+      "title": "Row week-number text size",
+      "type": "variable-number-slider",
+      "default": 10,
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-week-row-weight",
+      "title": "Row week-number text weight",
+      "type": "variable-number-slider",
+      "default": 500,
+      "min": 300,
+      "max": 800,
+      "step": 100
+    },
+    {
+      "id": "nosy-calendar-week-row-padding",
+      "title": "Row week-number padding",
+      "type": "variable-number-slider",
+      "default": 3,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-weeks-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-weeks-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-weeks-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-weeks-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-week-fg",
+      "title": "Top ISO indicator text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#666666",
+      "default-dark": "#aaa"
+    },
+    {
+      "id": "nosy-calendar-week-bg",
+      "title": "Top ISO indicator background",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#f5f5f5",
+      "default-dark": "#262626"
+    },
+    {
+      "id": "nosy-calendar-week-border",
+      "title": "Top ISO indicator border",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#dddddd",
+      "default-dark": "#444444"
+    },
+    {
+      "id": "nosy-calendar-week-row-fg",
+      "title": "Row week-number text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#777777",
+      "default-dark": "#aaa"
+    },
+    {
+      "id": "nosy-calendar-week-row-bg",
+      "title": "Row week-number background",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#f5f5f5",
+      "default-dark": "#262626"
+    },
+    {
+      "id": "nosy-calendar-layout",
+      "title": "Layout and overflow",
+      "type": "heading",
+      "level": 1,
+      "collapsed": true
+    },
+    {
+      "id": "nosy-calendar-outer-padding",
+      "title": "Calendar outer padding",
+      "type": "variable-number-slider",
+      "default": 10,
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-slot-height",
+      "title": "Minimum half-hour slot height",
+      "type": "variable-number-slider",
+      "default": 28,
+      "min": 18,
+      "max": 72,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-day-min-height",
+      "title": "Day-cell minimum height (Month / Year)",
+      "type": "variable-number-slider",
+      "default": 24,
+      "min": 16,
+      "max": 180,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-year-gap",
+      "title": "Year month spacing (padding per month)",
+      "type": "variable-number-slider",
+      "default": 6,
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-year-min-width",
+      "title": "Year month minimum width",
+      "type": "variable-number-slider",
+      "default": 240,
+      "min": 200,
+      "max": 520,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-overflow-size",
+      "title": "More-link and popover text size",
+      "type": "variable-number-slider",
+      "default": 12,
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-popover-padding",
+      "title": "Popover padding",
+      "type": "variable-number-slider",
+      "default": 10,
+      "min": 4,
+      "max": 28,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-popover-gap",
+      "title": "Popover event spacing",
+      "type": "variable-number-slider",
+      "default": 6,
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-popover-border-width",
+      "title": "Popover border width",
+      "type": "variable-number-slider",
+      "default": 1,
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "format": "px"
+    },
+    {
+      "id": "nosy-calendar-layout-colors",
+      "title": "Colors: Theme / Custom",
+      "type": "class-select",
+      "allowEmpty": false,
+      "default": "nosy-calendar-layout-theme",
+      "description": "Theme follows Obsidian. Custom uses the light/dark pickers below. Use the reset button to restore defaults.",
+      "options": [
+        {
+          "label": "Theme",
+          "value": "nosy-calendar-layout-theme"
+        },
+        {
+          "label": "Custom",
+          "value": "nosy-calendar-layout-custom"
+        }
+      ]
+    },
+    {
+      "id": "nosy-calendar-overflow-fg",
+      "title": "More-link and popover text",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#333333",
+      "default-dark": "#ddd"
+    },
+    {
+      "id": "nosy-calendar-popover-bg",
+      "title": "Popover surface",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#ffffff",
+      "default-dark": "#202020"
+    },
+    {
+      "id": "nosy-calendar-popover-border",
+      "title": "Popover border",
+      "type": "variable-themed-color",
+      "format": "hex",
+      "default-light": "#dddddd",
+      "default-dark": "#444444"
+    }
+  ]
+*/
+.nosy-calendar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 320px;
+  min-width: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: auto;
+  color: var(--text-normal);
+  background: var(--background-primary);
+  --fc-border-color: var(--background-modifier-border);
+  --fc-page-bg-color: var(--background-primary);
+  --fc-neutral-bg-color: var(--background-secondary);
+  --fc-neutral-text-color: var(--text-muted);
+  --fc-today-bg-color: var(--background-modifier-hover);
+  --fc-list-event-hover-bg-color: var(--background-modifier-hover);
+  --fc-button-bg-color: var(--interactive-normal);
+  --fc-button-text-color: var(--text-normal);
+  --fc-button-border-color: var(--background-modifier-border);
+  --fc-button-hover-bg-color: var(--interactive-hover);
+  --fc-button-hover-border-color: var(--background-modifier-border-hover);
+  --fc-button-active-bg-color: var(--interactive-accent);
+  --fc-button-active-border-color: var(--interactive-accent);
+  --fc-event-bg-color: var(--interactive-accent);
+  --fc-event-border-color: var(--interactive-accent);
+  --fc-event-text-color: var(--text-on-accent);
+  --fc-small-font-size: 0.85em;
+}
+.nosy-calendar-status {
+  flex: none;
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.nosy-calendar-host { flex: 1 1 auto; min-height: 260px; min-width: 0; }
+.nosy-calendar .fc { font-family: var(--font-interface); font-size: var(--font-ui-small); }
+.nosy-calendar .fc .fc-toolbar { flex-wrap: wrap; gap: 8px; }
+.nosy-calendar .fc .fc-toolbar-title { font-size: 1.2em; }
+.nosy-calendar .fc .fc-button { padding: 4px 8px; height: auto; box-shadow: none; }
+.nosy-calendar .fc .fc-button-primary:not(:disabled).fc-button-active { color: var(--text-on-accent); }
+.nosy-calendar .fc-event { cursor: pointer; }
+.nosy-calendar .fc-event:focus-visible { outline: 2px solid var(--text-normal); outline-offset: 2px; }
+.nosy-calendar .fc .fc-daygrid-event { white-space: normal; }
+.nosy-calendar .fc .fc-daygrid-dot-event { color: var(--text-normal); }
+.nosy-calendar .fc .fc-popover { background: var(--background-primary); color: var(--text-normal); max-height: 70vh; overflow: auto; }
+.nosy-calendar .fc .fc-multimonth { background: var(--background-primary); }
+.nosy-calendar .fc .fc-multimonth-daygrid { background: var(--background-primary); }
+.nosy-calendar .fc .fc-h-event.nosy-resize-enabled { min-height: 22px; min-width: 24px; }
+.nosy-calendar .fc .fc-h-event.nosy-resize-enabled .fc-event-main { min-height: 20px; position: relative; }
+.nosy-calendar .fc .nosy-resize-enabled .fc-event-resizer {
+  display: block;
+  z-index: 5;
+  opacity: 0;
+  background: var(--text-on-accent);
+  border: 1px solid var(--background-primary);
+  border-radius: 3px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.nosy-calendar .fc .nosy-resize-enabled:hover .fc-event-resizer { opacity: 1; pointer-events: auto; }
+.nosy-calendar .fc .fc-h-event.fc-event.nosy-resize-enabled .fc-event-resizer {
+  width: 8px; height: calc(100% - 4px); top: 2px; margin: 0; cursor: ew-resize;
+}
+.nosy-calendar .fc .fc-h-event.fc-event.nosy-resize-enabled .fc-event-resizer-start { left: 0; right: auto; }
+.nosy-calendar .fc .fc-h-event.fc-event.nosy-resize-enabled .fc-event-resizer-end { right: 0; left: auto; }
+.nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer {
+  height: 8px; width: auto; left: 0; right: 0; margin: 0; cursor: ns-resize;
+}
+.nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer-start { top: 0; bottom: auto; }
+.nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer-end { bottom: 0; top: auto; }
+.nosy-calendar .fc .nosy-continuation-start .fc-event-resizer-start,
+.nosy-calendar .fc .nosy-continuation-end .fc-event-resizer-end,
+.nosy-calendar .fc .fc-event-mirror .fc-event-resizer { display: none !important; }
+.modal.nosy-roles-modal { width: min(1200px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+.nosy-role-table-scroll { overflow-x: auto; margin-block: 12px; }
+.nosy-role-editor .nosy-role-table { width: 100%; min-width: 1000px; table-layout: fixed; border-collapse: collapse; }
+.nosy-role-table th, .nosy-role-table td { padding: 10px 8px; text-align: start; vertical-align: middle; border-bottom: 1px solid var(--background-modifier-border); }
+.nosy-role-table th { color: var(--text-muted); font-size: var(--font-ui-small); font-weight: var(--font-semibold); }
+.nosy-role-table th:nth-child(1) { width: 16%; }
+.nosy-role-table th:nth-child(2), .nosy-role-table th:nth-child(3) { width: 21%; }
+.nosy-role-table th:nth-child(4) { width: 20%; }
+.nosy-role-table th:nth-child(5) { width: 15%; }
+.nosy-role-table th:nth-child(6) { width: 7%; }
+.nosy-role-table td:nth-child(5) { text-align: center; }
+.nosy-role-editor .nosy-role-row input[type=text] { width: 100%; min-width: 0; }
+.nosy-role-property, .nosy-role-color, .nosy-role-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.nosy-role-property { flex-wrap: nowrap; }
+.nosy-role-property button:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; white-space: normal; height: auto; min-height: 28px; }
+.nosy-role-actions { justify-content: flex-end; margin-top: 16px; }
+.nosy-role-shared { color: var(--text-muted); font-size: var(--font-ui-small); }
+.nosy-calendar .nosy-rolled-label { display: inline-block; margin-inline: 4px; padding-inline: 3px; border: 1px solid currentColor; border-radius: 3px; font-size: 0.85em; }
+.nosy-calendar .nosy-original-dates { display: block; font-size: 0.8em; overflow: hidden; text-overflow: ellipsis; }
+.modal.nosy-colors-modal { width: min(1200px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
+.nosy-color-table { width: 100%; min-width: 1000px; border-collapse: collapse; }
+.nosy-color-table th, .nosy-color-table td { padding: 10px 8px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--background-modifier-border); }
+.nosy-color-table th { color: var(--text-muted); }
+.nosy-color-table td:first-child button { max-width: 230px; white-space: normal; height: auto; min-height: 28px; overflow-wrap: anywhere; }
+.nosy-color-value { display: flex; flex-wrap: wrap; gap: 6px; max-width: 360px; }
+.nosy-color-value input { width: 100%; }
+.nosy-color-value [hidden] { display: none; }
+.nosy-color-help { color: var(--text-muted); font-size: var(--font-ui-small); }
+.nosy-rule-feedback { flex-basis: 100%; margin-block: 4px; color: var(--text-muted); font-size: var(--font-ui-small); }
+.nosy-calendar .fc .nosy-custom-fill .fc-event-resizer { background: var(--nosy-event-ink); }
+/* Also applies to FullCalendar's floating body-drag clone outside the calendar root. */
+.nosy-role-event, .nosy-role-event .fc-event-main { overflow: visible; }
+.nosy-role-event .fc-event-main { position: relative; }
+.nosy-role-label {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  transform: translateY(-60%);
+  z-index: 4;
+  max-width: calc(100% - 12px);
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: max(8px, calc(1em - 2pt));
+  line-height: 1.2;
+  padding: 0 4px;
+  border: 1px solid var(--nosy-role-edge, var(--fc-event-border-color, currentColor));
+  border-radius: 3px;
+  background: var(--background-primary, #fff);
+  color: var(--text-normal, #222);
+  pointer-events: none;
+}
+.nosy-calendar .fc .fc-daygrid-event.nosy-role-event { margin-top: 8px; }
+
+/* Public --nosy-calendar-* variables inherit from Style Settings on body.
+   Only internal --nc-* fallbacks are resolved locally. Semantic inline rule/role colors win. */
+.nosy-calendar, .nosy-event {
+  --fc-event-bg-color: var(--nc-event-fill);
+  --fc-event-border-color: var(--nc-event-edge);
+  --fc-event-text-color: var(--nc-event-text);
+}
+.nosy-calendar { background: var(--background-primary, #fff); color: var(--text-normal, #222); }
+.nosy-calendar .fc { font-family: var(--font-interface, system-ui); --fc-border-color: var(--nc-grid-horizontal); }
+.nosy-calendar .fc .fc-toolbar { margin-bottom: 12px; align-items: center; }
+.nosy-calendar .fc .fc-toolbar-chunk { display: flex; align-items: center; flex-wrap: wrap; }
+.nosy-calendar .fc .fc-toolbar-title { line-height: 1.3; color: var(--nc-toolbar-fg); }
+.nosy-calendar .fc .fc-button { color: var(--nc-toolbar-fg); background: var(--nc-toolbar-bg); border-color: var(--nc-toolbar-border); min-height: 28px; }
+.nosy-calendar .fc .fc-button-primary:hover { background: var(--interactive-hover, #ddd); }
+.nosy-calendar .fc .fc-button-primary:not(:disabled).fc-button-active { background: var(--interactive-accent, #6750a4); color: var(--text-on-accent, #fff); }
+.nosy-calendar .fc .fc-col-header-cell { background: var(--nc-header-bg); border-bottom-color: var(--nc-header-separator); }
+.nosy-calendar .fc .fc-col-header-cell-cushion { display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 5px; text-decoration: none; }
+.nosy-weekday { color: var(--nc-weekday-fg); }
+.nosy-header-date { color: var(--nc-header-date-fg); }
+.nosy-calendar .fc .fc-daygrid-day-number { color: var(--nc-day-fg); padding: 5px 7px; }
+.nosy-calendar .fc .fc-day-today .fc-daygrid-day-number { color: var(--nc-today-fg); }
+.nosy-calendar .fc .fc-day-other .fc-daygrid-day-number { color: var(--nc-outside-fg); opacity: 1; }
+.nosy-calendar .fc .fc-day-other .fc-daygrid-day-top { opacity: 1; }
+.nosy-calendar .fc .fc-multimonth-title { color: var(--nc-month-title-fg); text-align: start; padding: 12px 8px; }
+.nosy-calendar .fc td, .nosy-calendar .fc th { border-top-color: var(--nc-grid-horizontal); border-bottom-color: var(--nc-grid-horizontal); border-left-color: var(--nc-grid-vertical); border-right-color: var(--nc-grid-vertical); }
+.nosy-calendar .fc .fc-timegrid-slot-minor { border-top-style: solid; border-top-color: var(--nc-minor-line); }
+.nosy-calendar .fc .fc-timegrid-slot:not(.fc-timegrid-slot-minor) { border-top-color: var(--nc-major-line); }
+.nosy-calendar .fc .fc-timegrid-col { border-inline-color: var(--nc-day-separator); }
+.nosy-calendar .fc .fc-scrollgrid, .nosy-calendar .fc .fc-multimonth { border-color: var(--nc-frame); }
+.nosy-event { font-family: var(--font-interface, system-ui); border-style: solid; background-color: var(--nc-event-fill); border-color: var(--nc-event-edge); }
+.nosy-event .fc-event-main { color: var(--nc-event-text); box-sizing: border-box; }
+.nosy-event .nosy-event-copy { height: 100%; overflow: hidden; }
+.nosy-event .fc-event-title { display: inline; line-height: inherit; }
+.nosy-event .nosy-event-time { display: inline; margin-inline-start: 4px; line-height: inherit; }
+.nosy-calendar .fc .fc-h-event.nosy-resize-enabled .fc-event-main { min-height: 0; }
+.nosy-calendar .fc .fc-daygrid-event.nosy-role-event { margin-top: max(8px, calc(0px - var(--nosy-calendar-badge-offset, -6px) + var(--nosy-calendar-badge-padding-y, 0px))); }
+.nosy-role-label { transform: translateY(var(--nc-badge-offset, -6px)); background: var(--nc-badge-bg); color: var(--nc-badge-fg); border-color: var(--nosy-role-edge, var(--nc-event-edge)); }
+.nosy-rolled-event .nosy-role-label::before { content: '↻ '; }
+.nosy-calendar .fc .fc-timegrid-slot-label { background: var(--nc-axis-bg); color: var(--nc-axis-fg); }
+.nosy-calendar .fc .fc-timegrid-axis { background: var(--nc-all-day-bg); color: var(--nc-all-day-fg); }
+.nosy-calendar .fc .fc-timegrid-axis-cushion, .nosy-calendar .fc .fc-timegrid-slot-label-cushion { display: inline-block; box-sizing: border-box; }
+.nosy-calendar .fc .fc-daygrid-day.fc-day-sat, .nosy-calendar .fc .fc-daygrid-day.fc-day-sun,
+.nosy-calendar .fc .fc-timegrid-col.fc-day-sat, .nosy-calendar .fc .fc-timegrid-col.fc-day-sun { background: var(--nc-weekend-bg); }
+.nosy-calendar .fc .fc-daygrid-day.fc-day-other { background: var(--nc-outside-bg); }
+.nosy-calendar .fc .fc-daygrid-day.fc-day-today, .nosy-calendar .fc .fc-timegrid-col.fc-day-today { background: var(--nc-today-bg); }
+.nosy-calendar .fc .fc-timegrid-now-indicator-line, .nosy-calendar .fc .fc-timegrid-now-indicator-arrow { border-color: var(--nc-now); }
+.nosy-event:hover, .nosy-calendar .fc .nosy-event:hover { box-shadow: 0 0 0 var(--nc-hover-width, 1px) var(--nc-hover); }
+.nosy-calendar .nosy-event:focus-visible { outline-style: solid; outline-color: var(--nc-focus); outline-offset: 2px; }
+.nosy-calendar .fc .nosy-heading { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
+.nosy-iso-indicator { display: inline-block; color: var(--nc-week-fg); background: var(--nc-week-bg); border: 1px solid var(--nc-week-border); border-radius: 5px; line-height: 1.3; white-space: nowrap; }
+.nosy-calendar .fc .fc-daygrid-week-number { color: var(--nc-week-row-fg); background: var(--nc-week-row-bg); border-radius: 0 0 4px 0; }
+.nosy-calendar .fc .fc-multimonth { padding: 8px; }
+.nosy-calendar .fc .fc-multimonth-month { box-sizing: border-box; }
+.nosy-calendar .fc .fc-more-link, .nosy-calendar .fc .fc-popover { color: var(--nc-overflow-fg); }
+.nosy-calendar .fc .fc-popover { background: var(--nc-popover-bg); border-style: solid; border-color: var(--nc-popover-border); border-radius: 7px; box-shadow: var(--shadow-s, 0 4px 16px #0002); }
+/* Handle hit boxes remain at least 8px, independent of text/grid/edge controls. */
+.nosy-event.nosy-resize-enabled .fc-event-resizer { min-width: 8px; min-height: 8px; }
+
+.nosy-calendar, .nosy-event {
+  --nc-toolbar-fg: var(--text-normal, #222);
+  --nc-toolbar-bg: var(--interactive-normal, #eee);
+  --nc-toolbar-border: var(--background-modifier-border, #ddd);
+  --nc-header-bg: var(--background-secondary, #f5f5f5);
+  --nc-weekday-fg: var(--text-muted, #666);
+  --nc-header-date-fg: var(--text-normal, #222);
+  --nc-header-separator: var(--background-modifier-border, #ddd);
+  --nc-day-fg: var(--text-normal, #222);
+  --nc-today-fg: var(--interactive-accent, #6750a4);
+  --nc-outside-fg: var(--text-faint, #999);
+  --nc-month-title-fg: var(--text-normal, #222);
+  --nc-grid-horizontal: var(--background-modifier-border, #ddd);
+  --nc-grid-vertical: var(--background-modifier-border, #ddd);
+  --nc-minor-line: color-mix(in srgb, var(--background-modifier-border, #ddd) 45%, transparent);
+  --nc-major-line: var(--background-modifier-border, #ddd);
+  --nc-day-separator: var(--background-modifier-border, #ddd);
+  --nc-frame: var(--background-modifier-border, #ddd);
+  --nc-event-fill: var(--interactive-accent, #6750a4);
+  --nc-event-edge: var(--interactive-accent, #6750a4);
+  --nc-event-text: var(--text-on-accent, #fff);
+  --nc-badge-fg: var(--text-normal, #222);
+  --nc-badge-bg: var(--background-primary, #fff);
+  --nc-axis-fg: var(--text-muted, #666);
+  --nc-axis-bg: var(--background-primary, #fff);
+  --nc-all-day-fg: var(--text-muted, #666);
+  --nc-all-day-bg: var(--background-secondary, #f5f5f5);
+  --nc-today-bg: color-mix(in srgb, var(--interactive-accent, #6750a4) 7%, var(--background-primary, #fff));
+  --nc-weekend-bg: color-mix(in srgb, var(--background-secondary, #eee) 45%, var(--background-primary, #fff));
+  --nc-outside-bg: var(--background-secondary, #f5f5f5);
+  --nc-now: var(--color-red, #d94d4d);
+  --nc-hover: var(--text-muted, #888);
+  --nc-focus: var(--interactive-accent, #6750a4);
+  --nc-week-fg: var(--text-muted, #666);
+  --nc-week-bg: var(--background-secondary, #f5f5f5);
+  --nc-week-border: var(--background-modifier-border, #ddd);
+  --nc-week-row-fg: var(--text-muted, #666);
+  --nc-week-row-bg: var(--background-secondary, #f5f5f5);
+  --nc-overflow-fg: var(--text-normal, #222);
+  --nc-popover-bg: var(--background-primary, #fff);
+  --nc-popover-border: var(--background-modifier-border, #ddd);
+}
+body.css-settings-manager.nosy-calendar-toolbar-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-toolbar-custom .nosy-event { --nc-toolbar-fg: var(--nosy-calendar-toolbar-fg, #303030); }
+body.theme-dark.css-settings-manager.nosy-calendar-toolbar-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-toolbar-custom .nosy-event { --nc-toolbar-fg: var(--nosy-calendar-toolbar-fg, #ddd); }
+body.css-settings-manager.nosy-calendar-toolbar-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-toolbar-custom .nosy-event { --nc-toolbar-bg: var(--nosy-calendar-toolbar-bg, #eeeeee); }
+body.theme-dark.css-settings-manager.nosy-calendar-toolbar-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-toolbar-custom .nosy-event { --nc-toolbar-bg: var(--nosy-calendar-toolbar-bg, #303030); }
+body.css-settings-manager.nosy-calendar-toolbar-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-toolbar-custom .nosy-event { --nc-toolbar-border: var(--nosy-calendar-toolbar-border, #d7d7d7); }
+body.theme-dark.css-settings-manager.nosy-calendar-toolbar-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-toolbar-custom .nosy-event { --nc-toolbar-border: var(--nosy-calendar-toolbar-border, #444444); }
+body.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-header-bg: var(--nosy-calendar-header-bg, #f5f5f5); }
+body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-header-bg: var(--nosy-calendar-header-bg, #262626); }
+body.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-weekday-fg: var(--nosy-calendar-weekday-fg, #666666); }
+body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-weekday-fg: var(--nosy-calendar-weekday-fg, #aaa); }
+body.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-header-date-fg: var(--nosy-calendar-header-date-fg, #222222); }
+body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-header-date-fg: var(--nosy-calendar-header-date-fg, #ddd); }
+body.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-header-separator: var(--nosy-calendar-header-separator, #dddddd); }
+body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-header-custom .nosy-event { --nc-header-separator: var(--nosy-calendar-header-separator, #444444); }
+body.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-day-fg: var(--nosy-calendar-day-fg, #333333); }
+body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-day-fg: var(--nosy-calendar-day-fg, #ddd); }
+body.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-today-fg: var(--nosy-calendar-today-fg, #6750a4); }
+body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-today-fg: var(--nosy-calendar-today-fg, #b6a3ec); }
+body.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-outside-fg: var(--nosy-calendar-outside-fg, #999999); }
+body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-outside-fg: var(--nosy-calendar-outside-fg, #666666); }
+body.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-month-title-fg: var(--nosy-calendar-month-title-fg, #222222); }
+body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-dates-custom .nosy-event { --nc-month-title-fg: var(--nosy-calendar-month-title-fg, #ddd); }
+body.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-grid-horizontal: var(--nosy-calendar-grid-horizontal, #dddddd); }
+body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-grid-horizontal: var(--nosy-calendar-grid-horizontal, #3b3b3b); }
+body.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-grid-vertical: var(--nosy-calendar-grid-vertical, #dddddd); }
+body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-grid-vertical: var(--nosy-calendar-grid-vertical, #3b3b3b); }
+body.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-minor-line: var(--nosy-calendar-minor-line, #eeeeee); }
+body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-minor-line: var(--nosy-calendar-minor-line, #2d2d2d); }
+body.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-major-line: var(--nosy-calendar-major-line, #d7d7d7); }
+body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-major-line: var(--nosy-calendar-major-line, #404040); }
+body.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-day-separator: var(--nosy-calendar-day-separator, #dddddd); }
+body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-day-separator: var(--nosy-calendar-day-separator, #444444); }
+body.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-frame: var(--nosy-calendar-frame, #d7d7d7); }
+body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-grid-custom .nosy-event { --nc-frame: var(--nosy-calendar-frame, #444444); }
+body.css-settings-manager.nosy-calendar-events-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-events-custom .nosy-event { --nc-event-fill: var(--nosy-calendar-event-fill, #6750a4); }
+body.theme-dark.css-settings-manager.nosy-calendar-events-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-events-custom .nosy-event { --nc-event-fill: var(--nosy-calendar-event-fill, #8065bf); }
+body.css-settings-manager.nosy-calendar-events-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-events-custom .nosy-event { --nc-event-edge: var(--nosy-calendar-event-edge, #6750a4); }
+body.theme-dark.css-settings-manager.nosy-calendar-events-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-events-custom .nosy-event { --nc-event-edge: var(--nosy-calendar-event-edge, #8065bf); }
+body.css-settings-manager.nosy-calendar-events-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-events-custom .nosy-event { --nc-event-text: var(--nosy-calendar-event-text, #ffffff); }
+body.theme-dark.css-settings-manager.nosy-calendar-events-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-events-custom .nosy-event { --nc-event-text: var(--nosy-calendar-event-text, #ffffff); }
+body.css-settings-manager.nosy-calendar-badges-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-badges-custom .nosy-event { --nc-badge-fg: var(--nosy-calendar-badge-fg, #333333); }
+body.theme-dark.css-settings-manager.nosy-calendar-badges-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-badges-custom .nosy-event { --nc-badge-fg: var(--nosy-calendar-badge-fg, #ddd); }
+body.css-settings-manager.nosy-calendar-badges-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-badges-custom .nosy-event { --nc-badge-bg: var(--nosy-calendar-badge-bg, #ffffff); }
+body.theme-dark.css-settings-manager.nosy-calendar-badges-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-badges-custom .nosy-event { --nc-badge-bg: var(--nosy-calendar-badge-bg, #202020); }
+body.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-axis-fg: var(--nosy-calendar-axis-fg, #666666); }
+body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-axis-fg: var(--nosy-calendar-axis-fg, #aaa); }
+body.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-axis-bg: var(--nosy-calendar-axis-bg, #ffffff); }
+body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-axis-bg: var(--nosy-calendar-axis-bg, #202020); }
+body.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-all-day-fg: var(--nosy-calendar-all-day-fg, #666666); }
+body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-all-day-fg: var(--nosy-calendar-all-day-fg, #aaa); }
+body.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-all-day-bg: var(--nosy-calendar-all-day-bg, #f5f5f5); }
+body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-axis-custom .nosy-event { --nc-all-day-bg: var(--nosy-calendar-all-day-bg, #262626); }
+body.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-today-bg: var(--nosy-calendar-today-bg, #f4f0fc); }
+body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-today-bg: var(--nosy-calendar-today-bg, #2c2638); }
+body.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-weekend-bg: var(--nosy-calendar-weekend-bg, #fafafa); }
+body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-weekend-bg: var(--nosy-calendar-weekend-bg, #222222); }
+body.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-outside-bg: var(--nosy-calendar-outside-bg, #f5f5f5); }
+body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-outside-bg: var(--nosy-calendar-outside-bg, #262626); }
+body.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-now: var(--nosy-calendar-now, #d94d4d); }
+body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-now: var(--nosy-calendar-now, #ec7777); }
+body.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-hover: var(--nosy-calendar-hover, #888888); }
+body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-hover: var(--nosy-calendar-hover, #aaa); }
+body.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-focus: var(--nosy-calendar-focus, #6750a4); }
+body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-highlights-custom .nosy-event { --nc-focus: var(--nosy-calendar-focus, #b6a3ec); }
+body.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-fg: var(--nosy-calendar-week-fg, #666666); }
+body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-fg: var(--nosy-calendar-week-fg, #aaa); }
+body.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-bg: var(--nosy-calendar-week-bg, #f5f5f5); }
+body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-bg: var(--nosy-calendar-week-bg, #262626); }
+body.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-border: var(--nosy-calendar-week-border, #dddddd); }
+body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-border: var(--nosy-calendar-week-border, #444444); }
+body.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-row-fg: var(--nosy-calendar-week-row-fg, #777777); }
+body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-row-fg: var(--nosy-calendar-week-row-fg, #aaa); }
+body.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-row-bg: var(--nosy-calendar-week-row-bg, #f5f5f5); }
+body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-weeks-custom .nosy-event { --nc-week-row-bg: var(--nosy-calendar-week-row-bg, #262626); }
+body.css-settings-manager.nosy-calendar-layout-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-layout-custom .nosy-event { --nc-overflow-fg: var(--nosy-calendar-overflow-fg, #333333); }
+body.theme-dark.css-settings-manager.nosy-calendar-layout-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-layout-custom .nosy-event { --nc-overflow-fg: var(--nosy-calendar-overflow-fg, #ddd); }
+body.css-settings-manager.nosy-calendar-layout-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-layout-custom .nosy-event { --nc-popover-bg: var(--nosy-calendar-popover-bg, #ffffff); }
+body.theme-dark.css-settings-manager.nosy-calendar-layout-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-layout-custom .nosy-event { --nc-popover-bg: var(--nosy-calendar-popover-bg, #202020); }
+body.css-settings-manager.nosy-calendar-layout-custom .nosy-calendar, body.css-settings-manager.nosy-calendar-layout-custom .nosy-event { --nc-popover-border: var(--nosy-calendar-popover-border, #dddddd); }
+body.theme-dark.css-settings-manager.nosy-calendar-layout-custom .nosy-calendar, body.theme-dark.css-settings-manager.nosy-calendar-layout-custom .nosy-event { --nc-popover-border: var(--nosy-calendar-popover-border, #444444); }
+.nosy-calendar .fc .fc-toolbar-title { font-size: var(--nosy-calendar-title-size, 18px); }
+.nosy-calendar .fc .fc-toolbar-title { font-weight: var(--nosy-calendar-title-weight, 600); }
+.nosy-calendar .fc .fc-button { font-size: var(--nosy-calendar-button-size, 12px); }
+.nosy-calendar .fc .fc-button { font-weight: var(--nosy-calendar-button-weight, 500); }
+.nosy-calendar .fc .fc-button { border-width: var(--nosy-calendar-toolbar-border-width, 1px); }
+.nosy-calendar .fc .fc-button { border-radius: var(--nosy-calendar-toolbar-radius, 6px); }
+.nosy-calendar .fc .fc-button { padding-inline: var(--nosy-calendar-toolbar-pad-x, 9px); }
+.nosy-calendar .fc .fc-button { padding-block: var(--nosy-calendar-toolbar-pad-y, 5px); }
+.nosy-calendar .fc .fc-toolbar, .nosy-calendar .fc .fc-toolbar-chunk { gap: var(--nosy-calendar-toolbar-gap, 8px); }
+.nosy-calendar .fc .nosy-weekday { font-size: var(--nosy-calendar-weekday-size, 11px); }
+.nosy-calendar .fc .nosy-weekday { font-weight: var(--nosy-calendar-weekday-weight, 500); }
+.nosy-calendar .fc .nosy-header-date { font-size: var(--nosy-calendar-header-date-size, 13px); }
+.nosy-calendar .fc .nosy-header-date { font-weight: var(--nosy-calendar-header-date-weight, 600); }
+.nosy-calendar .fc .fc-col-header-cell-cushion { padding-block: var(--nosy-calendar-header-padding, 8px); }
+.nosy-calendar .fc .fc-col-header-cell { border-bottom-width: var(--nosy-calendar-header-separator-width, 1px); }
+.nosy-calendar .fc .fc-daygrid-day-number { font-size: var(--nosy-calendar-day-size, 12px); }
+.nosy-calendar .fc .fc-daygrid-day-number { font-weight: var(--nosy-calendar-day-weight, 500); }
+.nosy-calendar .fc .fc-multimonth-title { font-size: var(--nosy-calendar-month-title-size, 15px); }
+.nosy-calendar .fc .fc-multimonth-title { font-weight: var(--nosy-calendar-month-title-weight, 600); }
+.nosy-calendar .fc td, .nosy-calendar .fc th { border-top-width: var(--nosy-calendar-grid-horizontal-width, 1px); border-bottom-width: var(--nosy-calendar-grid-horizontal-width, 1px); }
+.nosy-calendar .fc td, .nosy-calendar .fc th { border-left-width: var(--nosy-calendar-grid-vertical-width, 1px); border-right-width: var(--nosy-calendar-grid-vertical-width, 1px); }
+.nosy-calendar .fc .fc-timegrid-slot-minor { border-top-width: var(--nosy-calendar-minor-line-width, 1px); }
+.nosy-calendar .fc .fc-timegrid-slot:not(.fc-timegrid-slot-minor) { border-top-width: var(--nosy-calendar-major-line-width, 1px); }
+.nosy-calendar .fc .fc-timegrid-col { border-left-width: var(--nosy-calendar-day-separator-width, 1px); border-right-width: var(--nosy-calendar-day-separator-width, 1px); }
+.nosy-calendar .fc .fc-scrollgrid, .nosy-calendar .fc .fc-multimonth { border-width: var(--nosy-calendar-frame-width, 1px); }
+.nosy-event .fc-event-title { font-size: var(--nosy-calendar-event-title-size, 13px); }
+.nosy-event .fc-event-title { font-weight: var(--nosy-calendar-event-title-weight, 500); }
+.nosy-event .nosy-event-time { font-size: var(--nosy-calendar-event-time-size, 11px); }
+.nosy-event .nosy-event-time { font-weight: var(--nosy-calendar-event-time-weight, 500); }
+.nosy-event .fc-event-main { padding-inline: var(--nosy-calendar-event-padding-x, 7px); }
+.nosy-event .fc-event-main { padding-block: var(--nosy-calendar-event-padding-y, 3px); }
+.nosy-event .fc-event-main { line-height: var(--nosy-calendar-event-line-height, 1.25); }
+.nosy-calendar .fc .fc-h-event.nosy-event { min-height: var(--nosy-calendar-event-min-height, 28px); }
+.nosy-calendar .fc .fc-daygrid-event.nosy-event { margin-bottom: var(--nosy-calendar-event-gap, 3px); }
+.nosy-event { border-radius: var(--nosy-calendar-event-radius, 5px); }
+.nosy-event.fc-event { border-width: var(--nosy-calendar-event-edge-width, 1px); }
+.nosy-role-label { font-size: var(--nosy-calendar-badge-size, 10px); }
+.nosy-role-label { font-weight: var(--nosy-calendar-badge-weight, 500); }
+.nosy-role-label { padding-inline: var(--nosy-calendar-badge-padding-x, 4px); }
+.nosy-role-label { padding-block: var(--nosy-calendar-badge-padding-y, 0px); }
+.nosy-role-label { border-width: var(--nosy-calendar-badge-border-width, 1px); }
+.nosy-role-label { border-radius: var(--nosy-calendar-badge-radius, 4px); }
+.nosy-role-label { --nc-badge-offset: var(--nosy-calendar-badge-offset, -6px); }
+.nosy-calendar .fc .fc-timegrid-slot-label-cushion { font-size: var(--nosy-calendar-axis-size, 11px); }
+.nosy-calendar .fc .fc-timegrid-slot-label-cushion { font-weight: var(--nosy-calendar-axis-weight, 400); }
+.nosy-calendar .fc .fc-timegrid-axis-cushion { font-size: var(--nosy-calendar-all-day-size, 11px); }
+.nosy-calendar .fc .fc-timegrid-axis-cushion { font-weight: var(--nosy-calendar-all-day-weight, 500); }
+.nosy-calendar .fc .fc-timegrid-axis-cushion, .nosy-calendar .fc .fc-timegrid-slot-label-cushion { min-width: var(--nosy-calendar-axis-width, 60px); }
+.nosy-calendar .fc .fc-timegrid-now-indicator-line { border-top-width: var(--nosy-calendar-now-width, 2px); }
+.nosy-event:hover { --nc-hover-width: var(--nosy-calendar-hover-width, 1px); }
+.nosy-calendar .nosy-event:focus-visible { outline-width: var(--nosy-calendar-focus-width, 2px); }
+.nosy-calendar .fc .nosy-iso-indicator { font-size: var(--nosy-calendar-week-size, 11px); }
+.nosy-calendar .fc .nosy-iso-indicator { font-weight: var(--nosy-calendar-week-weight, 500); }
+.nosy-calendar .fc .nosy-iso-indicator { padding: var(--nosy-calendar-week-padding, 4px); }
+.nosy-calendar .fc .nosy-heading { gap: var(--nosy-calendar-week-gap, 8px); }
+.nosy-calendar .fc .nosy-iso-indicator { border-width: var(--nosy-calendar-week-border-width, 1px); }
+.nosy-calendar .fc .fc-daygrid-week-number { font-size: var(--nosy-calendar-week-row-size, 10px); }
+.nosy-calendar .fc .fc-daygrid-week-number { font-weight: var(--nosy-calendar-week-row-weight, 500); }
+.nosy-calendar .fc .fc-daygrid-week-number { padding: var(--nosy-calendar-week-row-padding, 3px); }
+.nosy-calendar { padding: var(--nosy-calendar-outer-padding, 10px); }
+.nosy-calendar .fc .fc-timegrid-slot { height: var(--nosy-calendar-slot-height, 28px); }
+.nosy-calendar .fc .fc-daygrid-day-frame { min-height: var(--nosy-calendar-day-min-height, 24px); }
+.nosy-calendar .fc .fc-multimonth-month { padding: var(--nosy-calendar-year-gap, 6px); }
+.nosy-calendar .fc .fc-multimonth-month { min-width: var(--nosy-calendar-year-min-width, 240px); }
+.nosy-calendar .fc .fc-more-link, .nosy-calendar .fc .fc-popover { font-size: var(--nosy-calendar-overflow-size, 12px); }
+.nosy-calendar .fc .fc-popover-body { padding: var(--nosy-calendar-popover-padding, 10px); }
+.nosy-calendar .fc .fc-popover .fc-daygrid-event { margin-bottom: var(--nosy-calendar-popover-gap, 6px); }
+.nosy-calendar .fc .fc-popover { border-width: var(--nosy-calendar-popover-border-width, 1px); }
+.nosy-calendar .fc .fc-col-header-cell { border-bottom-width: var(--nosy-calendar-header-separator-width, 1px); }
+.nosy-calendar .fc .fc-popover .fc-daygrid-event { margin-bottom: var(--nosy-calendar-popover-gap, 6px); }
