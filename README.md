@@ -2,6 +2,9 @@
 
 An interactive calendar for **Obsidian Bases**. Show notes through configurable calendar roles, reschedule them by dragging, and keep overdue follow-ups visible.
 
+<img width="691" height="988" alt="image" src="https://github.com/user-attachments/assets/11fb0365-60cc-43cf-a2c5-7d9b28e2f2fb" />
+
+
 Features
 
 - Week by default, with Day, Month and Year views.
@@ -11,6 +14,9 @@ Features
 - Conditional fill colors using property = value or contains value rules.
 - Date/time, whole-month/year and dated ISO-week support.
 - Extensive appearance controls through the optional community Style Settings plugin.
+
+<img width="677" height="978" alt="image" src="https://github.com/user-attachments/assets/12fd85df-34f9-4d39-b05d-f5fe49bb4e3c" />
+
 
 ## Requirements
 
@@ -47,6 +53,9 @@ Map a role's Start to scheduled and End to deadline. Additional roles can use ot
 
 Click an event to open its note. Body dragging changes its date; hovering reveals available endpoint handles. Resizing requires a writable End mapping and can create its value when that mapped property is empty.
 
+<img width="685" height="939" alt="image" src="https://github.com/user-attachments/assets/88e86f56-32ed-4408-b718-455223abe9e2" />
+
+
 ## Roles, rolling and colors
 
 Roles and fill rules are saved per Base view. A note can appear once for each role with a valid Start.
@@ -57,11 +66,15 @@ Use **Event colors** for ordered rules. First match wins. Text contains checks s
 
 Role colors control edges; matching rules control fills. All events still come from the Base's filtered results.
 
+<img width="679" height="972" alt="image" src="https://github.com/user-attachments/assets/4000c071-4f72-4da6-9af3-695287a688e0" />
+
 ## Dates and appearance
 
 Supported examples include 2026, 2026-11, 2026-11-23, date-times with a space or T separator, and 2026W48 / 2026-W48. Partial dates cover their whole period; all-day End dates are inclusive. Timed entries without an End display for 30 minutes.
 
 Appearance controls are under **Style Settings → NosyCalendar**. They apply across this vault's NosyCalendar views. Role mappings and fill rules remain per view.
+
+<img width="675" height="655" alt="image" src="https://github.com/user-attachments/assets/95709a29-a05d-424c-90d6-0e5e8e3702a5" />
 
 ## Current limits
 
