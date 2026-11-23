@@ -1,3 +1,6 @@
+import { installDomHelpers } from './dom-helpers.mjs';
+import { newRole } from '../src/roles';
+import { newColorRule } from '../src/colors';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
@@ -8,7 +11,36 @@ import { type ColorRule, type Literal } from '../src/colors';
 import type { PropertyPicker } from '../src/role-editor';
 
 const dom = new JSDOM('<!doctype html><body></body>'); globalThis.document = dom.window.document;
+installDomHelpers(dom.window.document);
 after(() => dom.window.close());
+
+test('color editor retains saved IDs and generates IDs from the owning unfocused popout window', () => {
+  const popout = new JSDOM('<!doctype html><body></body>', { pretendToBeVisual: true });
+  installDomHelpers(popout.window.document);
+  Object.defineProperty(popout.window.crypto, 'randomUUID', { configurable: true, value: () => 'popout-color-id' });
+  const original: ColorRule = { id: 'keep-saved-color', property: 'note.status', operator: '=', operand: { type: 'text', value: '' }, color: '#123456' };
+  const editor = new EventColorsEditor({} as App, [original], [], [], () => null, () => {});
+  popout.window.document.adoptNode(editor.modalEl); editor.open();
+  try {
+    button(editor.contentEl, '+ Add rule').click();
+    assert.deepEqual(editor.draft.map(rule => rule.id), ['keep-saved-color', 'popout-color-id']);
+    for (const node of editor.contentEl.querySelectorAll('*')) assert.equal(node.ownerDocument, popout.window.document);
+    assert.deepEqual([...editor.contentEl.querySelectorAll('thead th')].map(el => el.textContent), ['Property', 'Operator', 'Value', 'Fill color', 'Order', 'Remove']);
+    button(editor.contentEl, 'Cancel').click();
+    assert.equal(original.operand?.type, 'text'); assert.equal(original.id, 'keep-saved-color');
+  } finally { editor.close(); popout.window.close(); }
+});
+
+test('owning-window ID generation retains browser-only fallbacks when randomUUID is unavailable', () => {
+  const popout = new JSDOM('<!doctype html><body></body>');
+  Object.defineProperty(popout.window.crypto, 'randomUUID', { configurable: true, value: undefined });
+  try {
+    const owner = popout.window.document.defaultView!;
+    assert.match(newRole('Fallback', owner).id, /^role-[a-z0-9]+-[a-z0-9]+$/);
+    assert.match(newColorRule(owner).id, /^color-\d+-[\d.]+$/);
+    assert.notEqual(newRole('A', owner).id, newRole('B', owner).id);
+  } finally { popout.window.close(); }
+});
 const app = {} as App;
 const properties = ['note.Exact CASE.With Spaces', 'formula.score', 'note.done'] as const;
 const entries = [{ file: { path: 'a.md' }, getValue: (key: string) => key === 'note.done' ? new BooleanValue(false) : key === 'formula.score' ? new NumberValue(0) : new StringValue('Waiting') }] as unknown as BasesEntry[];

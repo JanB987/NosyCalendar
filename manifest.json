@@ -1,9 +1,9 @@
 {
   "id": "nosy-calendar",
   "name": "NosyCalendar",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "minAppVersion": "1.10.0",
-  "description": "Styled calendar roles, ISO weeks and rescheduling for Obsidian Bases.",
+  "description": "Display calendar views for Bases with roles, conditional colors, ISO weeks and rescheduling.",
   "author": "Dr. Jan Bergholz",
   "isDesktopOnly": false
 }

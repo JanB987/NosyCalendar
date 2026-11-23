@@ -1,3 +1,4 @@
+import { detachedEl } from './dom';
 import { FuzzySuggestModal, Modal, type App, type BasesEntry, type BasesPropertyId } from 'obsidian';
 import { PropertyPicker } from './role-editor';
 import { comparisonError, literalTypes, newColorRule, ruleFeedback, supportsContains, validateColorRules, valueSuggestions, validLiteral,
@@ -42,29 +43,28 @@ export class EventColorsEditor extends Modal {
   }
   onOpen(): void {
     this.closed = false; this.setTitle('Event colors'); this.modalEl.classList.add('nosy-colors-modal');
-    const doc = this.contentEl.ownerDocument;
     this.contentEl.classList.add('nosy-color-editor'); this.contentEl.replaceChildren();
-    const intro = doc.createElement('p');
+    const intro = this.contentEl.createEl('p');
     intro.textContent = 'First matching rule wins, across all roles. These rules only change fills. Comparisons use source values and preserve types and case. No match keeps the existing fill.';
     this.contentEl.append(intro);
     if (this.warnings.length) {
-      const warning = doc.createElement('p'); warning.textContent = `${this.warnings.join(' ')} Saving replaces invalid rows with the rules below.`;
+      const warning = this.contentEl.createEl('p'); warning.textContent = `${this.warnings.join(' ')} Saving replaces invalid rows with the rules below.`;
       this.contentEl.append(warning);
     }
-    const scroll = doc.createElement('div'); scroll.className = 'nosy-role-table-scroll'; scroll.tabIndex = 0;
+    const scroll = this.contentEl.createDiv(); scroll.className = 'nosy-role-table-scroll'; scroll.tabIndex = 0;
     scroll.setAttribute('role', 'region'); scroll.setAttribute('aria-label', 'Event colors table');
-    const table = doc.createElement('table'); table.className = 'nosy-color-table';
-    const head = doc.createElement('thead'), header = doc.createElement('tr');
+    const table = scroll.createEl('table'); table.className = 'nosy-color-table';
+    const head = table.createEl('thead'), header = head.createEl('tr');
     for (const title of ['Property', 'Operator', 'Value', 'Fill color', 'Order', 'Remove']) {
-      const cell = doc.createElement('th'); cell.scope = 'col'; cell.textContent = title; header.append(cell);
+      const cell = header.createEl('th'); cell.scope = 'col'; cell.textContent = title; header.append(cell);
     }
-    head.append(header); this.rows = doc.createElement('tbody'); table.append(head, this.rows); scroll.append(table); this.contentEl.append(scroll);
-    this.contentEl.append(this.button('+ Add rule', () => { this.draft.push(newColorRule()); this.renderRows(); }));
-    const help = doc.createElement('p'); help.className = 'nosy-color-help';
+    head.append(header); this.rows = table.createEl('tbody'); table.append(head, this.rows); scroll.append(table); this.contentEl.append(scroll);
+    this.contentEl.append(this.button('+ Add rule', () => { this.draft.push(newColorRule(this.contentEl.win)); this.renderRows(); }));
+    const help = this.contentEl.createEl('p'); help.className = 'nosy-color-help';
     help.textContent = 'Choose a value type or a typed source suggestion. Empty text and null are explicit values. Dates accept ISO dates/timestamps; links use [[note]] syntax (manual links are vault-relative). Lists accept JSON arrays, e.g. ["work", 5, false]. Object/file values are unsupported. Contains is available for text or list properties; other value kinds never match contains.';
     this.contentEl.append(help);
-    this.message = doc.createElement('p'); this.message.setAttribute('role', 'status'); this.contentEl.append(this.message);
-    const actions = doc.createElement('div'); actions.className = 'nosy-role-actions';
+    this.message = this.contentEl.createEl('p'); this.message.setAttribute('role', 'status'); this.contentEl.append(this.message);
+    const actions = this.contentEl.createDiv(); actions.className = 'nosy-role-actions';
     this.saveButton = this.button('Save', () => {
       this.validate(); if (this.saveButton.disabled) return;
       try {
@@ -81,7 +81,7 @@ export class EventColorsEditor extends Modal {
     this.contentEl.replaceChildren(); this.finished();
   }
   private button(text: string, click: () => void): HTMLButtonElement {
-    const button = this.contentEl.ownerDocument.createElement('button'); button.type = 'button'; button.textContent = text;
+    const button = detachedEl(this.contentEl.ownerDocument, 'button'); button.type = 'button'; button.textContent = text;
     button.addEventListener('click', click); return button;
   }
   private validate(): void {
@@ -97,8 +97,8 @@ export class EventColorsEditor extends Modal {
     this.rows.replaceChildren();
     this.feedback.clear();
     for (const [index, rule] of this.draft.entries()) {
-      const row = doc.createElement('tr'); row.className = 'nosy-color-row'; row.dataset.ruleId = rule.id;
-      const field = (...elements: HTMLElement[]) => { const cell = doc.createElement('td'); cell.append(...elements); row.append(cell); };
+      const row = this.rows.createEl('tr'); row.className = 'nosy-color-row'; row.dataset.ruleId = rule.id;
+      const field = (...elements: HTMLElement[]) => { const cell = row.createEl('td'); cell.append(...elements); row.append(cell); };
       const property = this.button(rule.property ?? 'Choose property…', () => {
         this.picker?.close(); this.picker = new PropertyPicker(this.app, this.properties, selected => {
           if (this.closed || !this.draft.includes(rule)) return;
@@ -107,20 +107,20 @@ export class EventColorsEditor extends Modal {
           this.renderRows();
         }); this.picker.open();
       }); property.setAttribute('aria-label', 'Property'); field(property);
-      const operator = doc.createElement('select'); operator.setAttribute('aria-label', 'Operator');
+      const operator = detachedEl(doc, 'select'); operator.setAttribute('aria-label', 'Operator');
       for (const text of ['=', 'contains'] as const) {
-        const option = doc.createElement('option'); option.value = text; option.textContent = text;
+        const option = detachedEl(doc, 'option'); option.value = text; option.textContent = text;
         option.disabled = text === 'contains' && Boolean(rule.property) && !supportsContains(this.entries, rule.property!);
         operator.append(option);
       }
       operator.value = rule.operator;
       operator.addEventListener('change', () => { rule.operator = operator.value as ColorRule['operator']; this.validate(); }); field(operator);
-      const value = doc.createElement('div'); value.className = 'nosy-color-value';
+      const value = detachedEl(doc, 'div'); value.className = 'nosy-color-value';
       const suggestions = rule.property ? valueSuggestions(this.app, this.entries, rule.property) : [];
-      const type = doc.createElement('select'); type.setAttribute('aria-label', 'Value type');
-      for (const name of literalTypes) { const option = doc.createElement('option'); option.value = name; option.textContent = name; type.append(option); }
+      const type = detachedEl(doc, 'select'); type.setAttribute('aria-label', 'Value type');
+      for (const name of literalTypes) { const option = detachedEl(doc, 'option'); option.value = name; option.textContent = name; type.append(option); }
       type.value = rule.operand?.type ?? suggestions.find(item => item.type !== 'null')?.type ?? 'text';
-      const input = doc.createElement('input'); input.setAttribute('aria-label', 'Value');
+      const input = detachedEl(doc, 'input'); input.setAttribute('aria-label', 'Value');
       const setOperand = () => {
         this.inputErrors.delete(rule.id);
         switch (type.value) {
@@ -141,8 +141,8 @@ export class EventColorsEditor extends Modal {
         }
         this.validate();
       };
-      const boolean = doc.createElement('select'); boolean.setAttribute('aria-label', 'Boolean value');
-      for (const text of ['', 'false', 'true']) { const option = doc.createElement('option'); option.value = text; option.textContent = text || 'Choose boolean…'; boolean.append(option); }
+      const boolean = detachedEl(doc, 'select'); boolean.setAttribute('aria-label', 'Boolean value');
+      for (const text of ['', 'false', 'true']) { const option = detachedEl(doc, 'option'); option.value = text; option.textContent = text || 'Choose boolean…'; boolean.append(option); }
       boolean.value = rule.operand?.type === 'boolean' ? String(rule.operand.value) : '';
       boolean.addEventListener('change', setOperand);
       const configureInput = () => {
@@ -163,10 +163,10 @@ export class EventColorsEditor extends Modal {
         }); this.picker.open();
       }); suggest.disabled = !suggestions.length;
       const empty = this.button('Use empty text', () => { rule.operand = { type: 'text', value: '' }; this.inputErrors.delete(rule.id); this.renderRows(); });
-      const hint = doc.createElement('p'); hint.className = 'nosy-rule-feedback';
+      const hint = detachedEl(doc, 'p'); hint.className = 'nosy-rule-feedback';
       this.feedback.set(rule.id, hint);
       value.append(type, input, boolean, suggest, empty, hint); field(value);
-      const color = doc.createElement('input'); color.type = 'color'; color.value = rule.color; color.setAttribute('aria-label', 'Fill color');
+      const color = detachedEl(doc, 'input'); color.type = 'color'; color.value = rule.color; color.setAttribute('aria-label', 'Fill color');
       color.addEventListener('input', () => { rule.color = color.value; this.validate(); }); field(color);
       const up = this.button('↑', () => this.move(index, -1)), down = this.button('↓', () => this.move(index, 1));
       up.setAttribute('aria-label', 'Move rule up'); down.setAttribute('aria-label', 'Move rule down'); up.disabled = index === 0; down.disabled = index === this.draft.length - 1;

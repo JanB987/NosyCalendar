@@ -15,8 +15,8 @@ export const eventId = (path: string, roleId: string): string => JSON.stringify(
 export const roleStamp = (role: CalendarRole): string => JSON.stringify(role);
 export const isPropertyId = (value: unknown): value is BasesPropertyId => typeof value === 'string' && /^(note|file|formula)\.[\s\S]+$/.test(value);
 
-export function newRole(label = 'Role'): CalendarRole {
-  const id = globalThis.crypto?.randomUUID?.() ?? `role-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+export function newRole(label = 'Role', win: Window = activeWindow): CalendarRole {
+  const id = win.crypto?.randomUUID?.() ?? `role-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
   return { id, label, edgeColor: null, startProperty: null, endProperty: null, rollPastDates: false };
 }
 

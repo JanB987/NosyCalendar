@@ -180,6 +180,40 @@ try{
     await evaluate(`nosyHarness.mode('${mode}')`);
     await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:false}).then(result=>writeFile(`.test-build/iteration07-${mode}.png`,Buffer.from(result.data,'base64')));
   }
+  // Exercise the actual CSS cascade with native selected, focused and pointer-hover states.
+  // Include synthetic native handles even on forbidden endpoints, so CSS hiding cannot pass merely through absent DOM.
+  for (const orientation of ['fc-h-event','fc-v-event']) for (const marker of ['nosy-continuation-start','nosy-continuation-end','fc-event-mirror','real-endpoints']) {
+    await evaluate(`(()=>{
+      const root=document.body.createDiv({cls:'nosy-calendar'});root.id='resize-cascade-check';root.style.cssText='position:fixed;left:10px;top:10px;z-index:99999;width:160px;height:80px;background:white';
+      const fc=root.createDiv({cls:'fc'}), event=fc.createDiv({cls:'fc-event nosy-event nosy-resize-enabled ${orientation} ${marker}'});
+      event.id='cascade-event';event.tabIndex=0;event.style.cssText='display:block;width:140px;height:60px;position:relative';
+      for(const edge of ['start','end']) event.createSpan({cls:'fc-event-resizer fc-event-resizer-'+edge});
+    })()`);
+    for (const state of ['plain','selected','focused','hovered']) {
+      if(state==='plain') await cdp('Input.dispatchMouseEvent',{type:'mouseMoved',x:1200,y:950,buttons:0});
+      if(state==='selected') await evaluate(`document.getElementById('cascade-event').classList.add('fc-event-selected')`);
+      if(state==='focused') await evaluate(`document.getElementById('cascade-event').focus()`);
+      if(state==='hovered') await cdp('Input.dispatchMouseEvent',{type:'mouseMoved',x:50,y:35,buttons:0});
+      for (const edge of ['start','end']) {
+        const selector='#cascade-event .fc-event-resizer-'+edge;
+        const hidden=marker==='fc-event-mirror'||marker==='nosy-continuation-'+edge;
+        if(hidden) {
+          check(await cssValue(selector,'display')==='none',`${orientation} ${marker} ${state}: ${edge} remains hidden`);
+          check(await cssValue(selector,'pointer-events')==='none',`${orientation} ${marker} ${state}: ${edge} cannot receive pointers`);
+        } else if(marker==='real-endpoints') {
+          check(await cssValue(selector,'display')!=='none',`${orientation} ${state}: real ${edge} remains rendered`);
+          check(await cssValue(selector,'opacity')===(state==='hovered'?'1':'0'),`${orientation} ${state}: real ${edge} is hover-only`);
+        }
+      }
+    }
+    // FullCalendar can attach its floating body-drag mirror outside the calendar's root.
+    if(marker==='fc-event-mirror') {
+      await evaluate(`document.body.append(document.getElementById('cascade-event'))`);
+      for(const edge of ['start','end']) check(await cssValue('#cascade-event .fc-event-resizer-'+edge,'display')==='none',`floating ${orientation} mirror ${edge} stays hidden`);
+      await evaluate(`document.getElementById('cascade-event').remove()`);
+    }
+    await evaluate(`document.getElementById('resize-cascade-check').remove()`);
+  }
   const cleanup=await evaluate('nosyHarness.close()');check(cleanup.styleListeners===0&&cleanup.cacheListeners===0,'lifecycle removes external listeners');
   check(pageErrors.length===0,'no browser runtime errors: '+pageErrors.join('; '));
   await writeFile('.test-build/browser-results-07.json',JSON.stringify({checks,numericControls:seen.size,themedColors:colorSeen.size,installedStyleSettings:'1.0.9',browser:path.basename(executable),notesWrites:'only explicit tested gestures',passed:true},null,2));

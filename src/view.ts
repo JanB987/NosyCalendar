@@ -1,3 +1,4 @@
+import { detachedEl } from './dom';
 import { BasesView, DateValue, Keymap, Notice, TFile, type BasesEntry, type BasesPropertyId, type QueryController } from 'obsidian';
 import { Calendar, type EventDropArg, type EventInput, type EventSourceApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -57,15 +58,15 @@ export class NosyCalendarView extends BasesView {
     this.disposed = false;
     const doc = this.parent.ownerDocument;
     const win = doc.defaultView!;
-    const root = this.root = doc.createElement('div');
+    const root = this.root = this.parent.createDiv();
     root.className = 'nosy-calendar';
     this.parent.append(root);
-    const status = this.status = doc.createElement('div');
+    const status = this.status = root.createDiv();
     status.className = 'nosy-calendar-status';
     status.setAttribute('role', 'status');
     status.setAttribute('aria-live', 'polite');
     root.append(status);
-    const host = doc.createElement('div');
+    const host = root.createDiv();
     host.className = 'nosy-calendar-host';
     root.append(host);
     this.calendar = new Calendar(host, {
@@ -89,16 +90,16 @@ export class NosyCalendarView extends BasesView {
         if (!heading) return;
         heading.classList.add('nosy-heading');
         let indicator = heading.querySelector<HTMLElement>('.nosy-iso-indicator');
-        if (!indicator) { indicator = doc.createElement('span'); indicator.className = 'nosy-iso-indicator'; heading.append(indicator); }
+        if (!indicator) { indicator = heading.createSpan(); indicator.className = 'nosy-iso-indicator'; heading.append(indicator); }
         indicator.textContent = isoPeriod(info.view.currentStart, info.view.currentEnd, info.view.type);
         indicator.setAttribute('aria-label', `Displayed ISO weeks: ${indicator.textContent}`);
       },
       dayHeaderContent: info => {
-        const weekday = doc.createElement('span'); weekday.className = 'nosy-weekday';
+        const weekday = detachedEl(doc, 'span'); weekday.className = 'nosy-weekday';
         weekday.textContent = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(info.date);
         const domNodes = [weekday];
         if (info.view.type === 'timeGridWeek' || info.view.type === 'timeGridDay') {
-          const date = doc.createElement('span'); date.className = 'nosy-header-date';
+          const date = detachedEl(doc, 'span'); date.className = 'nosy-header-date';
           date.textContent = new Intl.DateTimeFormat('en', {day:'numeric',month:'short'}).format(info.date); domNodes.push(date);
         }
         return { domNodes };
@@ -360,7 +361,7 @@ export class NosyCalendarView extends BasesView {
         let projection: DateProjection;
         try { projection = projectDates(start, end, result.dates, role.rollPastDates, this.now()); }
         catch { const reason = `${role.label}: projected date outside supported range`; omissions.set(reason, (omissions.get(reason) ?? 0) + 1); continue; }
-        const frontmatter = this.app.metadataCache.getFileCache(entry.file)?.frontmatter as Record<string, unknown> | undefined;
+        const frontmatter = this.app.metadataCache.getFileCache(entry.file)?.frontmatter;
         const access: MoveAccess = entry.file.extension === 'md'
           ? prepareMove(entry.file.path, mappings, frontmatter, start, end)
           : { reason: 'Only Markdown notes can be rescheduled.' };

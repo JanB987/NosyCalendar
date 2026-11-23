@@ -1,13 +1,13 @@
 {
   "name": "nosy-calendar",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "private": true,
   "license": "MIT",
   "repository": "github:JanB987/NosyCalendar",
   "engines": {
     "node": ">=22 <25"
   },
-  "description": "Styled calendar roles, ISO weeks and rescheduling for Obsidian Bases",
+  "description": "Display calendar views for Bases with roles, conditional colors, ISO weeks and rescheduling.",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "check:min-api": "npm ci --prefix tests/minimum-api --ignore-scripts --no-audit --no-fund && tsc --noEmit --project tsconfig.minimum.json",
@@ -18,7 +18,9 @@
     "check:browser": "node scripts/browser-check.mjs",
     "build": "node scripts/styles.mjs && npm run typecheck && node esbuild.config.mjs",
     "test": "node scripts/test.mjs",
-    "deploy": "node scripts/deploy.mjs"
+    "deploy": "node scripts/deploy.mjs",
+    "lint": "node scripts/lint.mjs",
+    "check:publication": "node scripts/check-publication.mjs"
   },
   "dependencies": {
     "@fullcalendar/core": "6.1.20",
@@ -28,11 +30,16 @@
     "@fullcalendar/timegrid": "6.1.20"
   },
   "devDependencies": {
+    "@eslint/json": "2.0.0",
     "@types/jsdom": "21.1.7",
     "@types/node": "22.10.2",
     "esbuild": "0.25.12",
+    "eslint": "9.39.5",
+    "eslint-plugin-obsidianmd": "0.6.0",
     "jsdom": "26.1.0",
     "obsidian": "1.14.4",
-    "typescript": "5.9.3"
+    "postcss": "8.5.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.73.0"
   }
 }

@@ -17,6 +17,34 @@ test('native equality keeps scalar types, zero, false, empty text and null disti
   assert.equal(matchesColor(new NumberValue(5), new StringValue('5'), '='), false);
   assert.equal(matchesColor(null, NullValue.value, '='), true);
 });
+
+test('unknown rows and nested literals are isolated before field access; valid later rows and duplicate semantics survive', () => {
+  const cyclic: { type: 'list'; value: unknown[] } = { type: 'list', value: [] }; cyclic.value.push(cyclic);
+  const malformed: unknown[] = [null, undefined, false, 0, '', [], {}, { id: [] },
+    rule({ operand: null }), { ...rule(), operand: [] }, { ...rule(), operand: { type: 'list', value: [null] } },
+    { ...rule(), operand: { type: 'list', value: new Array(1) } }, { ...rule(), operand: cyclic },
+    { ...rule(), operand: { type: 'link', value: '[[A]]', sourcePath: 5 } },
+    { ...rule(), operand: { type: 'number', value: Infinity } }];
+  for (const bad of malformed) {
+    const result = readColorRules([bad, rule({ id: 'later' })], app);
+    assert.deepEqual(result.rules, [rule({ id: 'later' })]);
+    assert.equal(result.errors.length, 1);
+  }
+  const result = readColorRules([{ ...rule(), color: 42 }, rule(), rule(), rule({ id: 'last', operand: { type: 'boolean', value: false } })], app);
+  assert.deepEqual(result.rules.map(row => row.id), ['one', 'last']);
+  assert.equal(result.errors.length, 2);
+  assert.match(result.errors[1]!, /duplicate ID/);
+  assert.equal(compileColors(result.rules, app)(entry(new BooleanValue(false))), '#123456');
+});
+
+test('accepted nested operands are copied without sharing persisted configuration', () => {
+  const original = rule({ operand: { type: 'list', value: [{ type: 'number', value: 0 }, { type: 'null' }, { type: 'text', value: '' }] } });
+  const parsed = readColorRules([original], app).rules[0]!;
+  assert.deepEqual(parsed, original);
+  assert.notEqual(parsed.operand, original.operand);
+  if (parsed.operand?.type === 'list') parsed.operand.value.push({ type: 'boolean', value: false });
+  if (original.operand?.type === 'list') assert.equal(original.operand.value.length, 3);
+});
 test('text contains is a case-sensitive substring; list contains is whole typed member equality', () => {
   assert.equal(matchesColor(new StringValue('Waiting'), new StringValue('ait'), 'contains'), true);
   assert.equal(matchesColor(new StringValue('Waiting'), new StringValue('wait'), 'contains'), false);

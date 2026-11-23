@@ -1,3 +1,4 @@
+import { detachedEl } from './dom';
 import { FuzzySuggestModal, Modal, type App, type BasesPropertyId } from 'obsidian';
 import { isPropertyId, newRole, sharedProperties, validateRoles, type CalendarRole } from './roles';
 
@@ -40,27 +41,26 @@ export class CalendarRolesEditor extends Modal {
   onOpen(): void {
     this.closed = false;
     this.setTitle('Calendar roles');
-    const doc = this.contentEl.ownerDocument;
     this.contentEl.replaceChildren();
     this.contentEl.classList.add('nosy-role-editor');
     this.modalEl.classList.add('nosy-roles-modal');
-    const intro = doc.createElement('p');
+    const intro = this.contentEl.createEl('p');
     intro.textContent = 'Roles are saved for this Base view. Shared properties are allowed: editing a field affects every role using that field. Edge colors change event borders independently of backgrounds.';
     this.contentEl.append(intro);
-    const scroll = doc.createElement('div'); scroll.className = 'nosy-role-table-scroll';
+    const scroll = this.contentEl.createDiv(); scroll.className = 'nosy-role-table-scroll';
     scroll.tabIndex = 0; scroll.setAttribute('role', 'region'); scroll.setAttribute('aria-label', 'Calendar roles table');
-    const table = doc.createElement('table'); table.className = 'nosy-role-table'; table.setAttribute('aria-label', 'Calendar roles');
-    const head = doc.createElement('thead'), header = doc.createElement('tr');
+    const table = scroll.createEl('table'); table.className = 'nosy-role-table'; table.setAttribute('aria-label', 'Calendar roles');
+    const head = table.createEl('thead'), header = head.createEl('tr');
     for (const name of ['Label', 'Start property', 'End property', 'Edge color', 'Roll past dates to today', 'Remove']) {
-      const cell = doc.createElement('th'); cell.scope = 'col'; cell.textContent = name; header.append(cell);
+      const cell = header.createEl('th'); cell.scope = 'col'; cell.textContent = name; header.append(cell);
     }
-    head.append(header); this.rows = doc.createElement('tbody'); table.append(head, this.rows);
+    head.append(header); this.rows = table.createEl('tbody'); table.append(head, this.rows);
     scroll.append(table); this.contentEl.append(scroll);
-    const add = this.button('+ Add role', () => { this.draft.push(newRole(`Role ${this.draft.length + 1}`)); this.renderRows(); });
+    const add = this.button('+ Add role', () => { this.draft.push(newRole(`Role ${this.draft.length + 1}`, this.contentEl.win)); this.renderRows(); });
     add.className = 'nosy-add-role'; this.contentEl.append(add);
-    this.shared = doc.createElement('p'); this.shared.className = 'nosy-role-shared'; this.contentEl.append(this.shared);
-    this.message = doc.createElement('p'); this.message.setAttribute('role', 'status'); this.contentEl.append(this.message);
-    const actions = doc.createElement('div'); actions.className = 'nosy-role-actions'; this.contentEl.append(actions);
+    this.shared = this.contentEl.createEl('p'); this.shared.className = 'nosy-role-shared'; this.contentEl.append(this.shared);
+    this.message = this.contentEl.createEl('p'); this.message.setAttribute('role', 'status'); this.contentEl.append(this.message);
+    const actions = this.contentEl.createDiv(); actions.className = 'nosy-role-actions'; this.contentEl.append(actions);
     this.saveButton = this.button('Save', () => {
       const validation = validateRoles(this.draft);
       if (validation) { this.message.textContent = validation; return; }
@@ -82,7 +82,7 @@ export class CalendarRolesEditor extends Modal {
   }
 
   private button(text: string, click: () => void): HTMLButtonElement {
-    const button = this.contentEl.ownerDocument.createElement('button');
+    const button = detachedEl(this.contentEl.ownerDocument, 'button');
     button.type = 'button'; button.textContent = text; button.addEventListener('click', click);
     return button;
   }
@@ -99,15 +99,15 @@ export class CalendarRolesEditor extends Modal {
     const doc = this.contentEl.ownerDocument;
     this.rows.replaceChildren();
     for (const role of this.draft) {
-      const row = doc.createElement('tr'); row.className = 'nosy-role-row'; row.dataset.roleId = role.id;
+      const row = this.rows.createEl('tr'); row.className = 'nosy-role-row'; row.dataset.roleId = role.id;
       const field = (control: HTMLElement) => {
-        const cell = doc.createElement('td'); cell.append(control); row.append(cell);
+        const cell = row.createEl('td'); cell.append(control); row.append(cell);
       };
-      const label = doc.createElement('input'); label.type = 'text'; label.value = role.label; label.setAttribute('aria-label', 'Role label');
+      const label = detachedEl(doc, 'input'); label.type = 'text'; label.value = role.label; label.setAttribute('aria-label', 'Role label');
       label.addEventListener('input', () => { role.label = label.value; this.updateValidation(); }); field(label);
       for (const key of ['startProperty', 'endProperty'] as const) {
         const name = key === 'startProperty' ? 'Start property' : 'End property (optional)';
-        const controls = doc.createElement('div'); controls.className = 'nosy-role-property';
+        const controls = detachedEl(doc, 'div'); controls.className = 'nosy-role-property';
         const pick = this.button(role[key] ?? 'Choose property…', () => {
           this.picker?.close();
           this.picker = new PropertyPicker(this.app, this.properties, property => {
@@ -120,13 +120,13 @@ export class CalendarRolesEditor extends Modal {
         controls.append(pick, this.button('Clear', () => { role[key] = null; pick.textContent = 'Choose property…'; this.updateValidation(); }));
         field(controls);
       }
-      const colorControls = doc.createElement('div'); colorControls.className = 'nosy-role-color';
-      const color = doc.createElement('input'); color.type = 'color'; color.value = role.edgeColor ?? '#808080'; color.setAttribute('aria-label', 'Edge color');
-      const colorState = doc.createElement('span'); colorState.textContent = role.edgeColor ?? 'Inherited';
+      const colorControls = detachedEl(doc, 'div'); colorControls.className = 'nosy-role-color';
+      const color = detachedEl(doc, 'input'); color.type = 'color'; color.value = role.edgeColor ?? '#808080'; color.setAttribute('aria-label', 'Edge color');
+      const colorState = detachedEl(doc, 'span'); colorState.textContent = role.edgeColor ?? 'Inherited';
       color.addEventListener('input', () => { role.edgeColor = color.value; colorState.textContent = color.value; this.updateValidation(); });
       colorControls.append(color, colorState, this.button('Use inherited color', () => { role.edgeColor = null; colorState.textContent = 'Inherited'; this.updateValidation(); }));
       field(colorControls);
-      const roll = doc.createElement('input'); roll.type = 'checkbox'; roll.checked = role.rollPastDates;
+      const roll = detachedEl(doc, 'input'); roll.type = 'checkbox'; roll.checked = role.rollPastDates;
       roll.setAttribute('aria-label', 'Roll past dates to today');
       roll.addEventListener('change', () => { role.rollPastDates = roll.checked; }); field(roll);
       field(this.button('Remove', () => { this.draft.splice(this.draft.indexOf(role), 1); this.renderRows(); }));

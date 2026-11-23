@@ -31,8 +31,9 @@ function fixture(initial: Record<string, unknown> = { scheduled: '2026-11-23' },
     setTimeout: (handler: TimerHandler) => { const id = ++nextTimer; timers.set(id, handler); return id; },
     clearTimeout: (id: number) => { timers.delete(id); }, addEventListener: addListener, removeEventListener: removeListener
   };
-  const doc = { defaultView: win, createElement: (_tag: string) => element(), querySelectorAll: () => [], hidden: false, addEventListener: addListener, removeEventListener: removeListener };
+  const doc = { defaultView: win, createDocumentFragment: () => ({ createEl: () => element() }), createElement: (_tag: string) => element(), querySelectorAll: () => [], hidden: false, addEventListener: addListener, removeEventListener: removeListener };
   const element = () => ({
+    createDiv: () => element(), createSpan: () => element(),
     ownerDocument: doc, className: '', textContent: '', title: '', hidden: false,
     clientWidth: 800, clientHeight: 600, append() {}, remove() {}, setAttribute() {},
     style: { setProperty() {}, removeProperty() {} }, dataset: {},

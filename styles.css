@@ -1312,9 +1312,10 @@ settings:
 }
 .nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer-start { top: 0; bottom: auto; }
 .nosy-calendar .fc .fc-v-event.fc-event.nosy-resize-enabled .fc-event-resizer-end { bottom: 0; top: auto; }
-.nosy-calendar .fc .nosy-continuation-start .fc-event-resizer-start,
-.nosy-calendar .fc .nosy-continuation-end .fc-event-resizer-end,
-.nosy-calendar .fc .fc-event-mirror .fc-event-resizer { display: none !important; }
+.nosy-calendar .fc .fc-event.nosy-resize-enabled.nosy-continuation-start .fc-event-resizer-start,
+.nosy-calendar .fc .fc-event.nosy-resize-enabled.nosy-continuation-end .fc-event-resizer-end,
+.nosy-calendar .fc .fc-event.fc-event-mirror .fc-event-resizer,
+.nosy-event.fc-event.fc-event-mirror.nosy-resize-enabled .fc-event-resizer { display: none; pointer-events: none; }
 .modal.nosy-roles-modal { width: min(1200px, calc(100vw - 32px)); max-width: calc(100vw - 32px); }
 .nosy-role-table-scroll { overflow-x: auto; margin-block: 12px; }
 .nosy-role-editor .nosy-role-table { width: 100%; min-width: 1000px; table-layout: fixed; border-collapse: collapse; }

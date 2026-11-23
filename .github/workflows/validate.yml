@@ -19,6 +19,10 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      - name: Type-aware scanner rules and source/manifest coverage
+        run: npm run lint
+      - name: Manifest and project/generated CSS checks
+        run: npm run check:publication
       - name: Regression and style checks
         run: npm test
       - name: Real browser and live style checks

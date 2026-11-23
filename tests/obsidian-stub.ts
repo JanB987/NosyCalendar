@@ -11,7 +11,7 @@ export class Modal {
   private opened = false;
   constructor(app: unknown) { this.app = app; this.contentEl = document.createElement('div'); this.titleEl = document.createElement('h2'); this.modalEl = document.createElement('div'); this.modalEl.className = 'modal'; this.modalEl.append(this.titleEl, this.contentEl); }
   setTitle(title: string): this { this.titleEl.textContent = title; return this; }
-  open(): void { if (!this.opened) { this.opened = true; document.body.append(this.modalEl); this.onOpen(); } }
+  open(): void { if (!this.opened) { this.opened = true; this.modalEl.ownerDocument.body.append(this.modalEl); this.onOpen(); } }
   close(): void { if (this.opened) { this.opened = false; this.onClose(); this.modalEl.remove(); } }
   onOpen(): void {}
   onClose(): void {}

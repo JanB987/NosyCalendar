@@ -1,6 +1,7 @@
 import { BooleanValue, DateValue, LinkValue, ListValue, NullValue, NumberValue, StringValue, Value,
   type App, type BasesEntry, type BasesPropertyId } from 'obsidian';
 import { isPropertyId } from './roles';
+import { isRecord, isUnknownArray } from './unknown';
 
 export const COLORS_KEY = 'eventColorRules';
 export type Literal = { type: 'text' | 'date'; value: string } | { type: 'link'; value: string; sourcePath?: string }
@@ -8,20 +9,24 @@ export type Literal = { type: 'text' | 'date'; value: string } | { type: 'link';
   | { type: 'list'; value: Literal[] };
 export interface ColorRule { id: string; property: BasesPropertyId | null; operator: '=' | 'contains'; operand: Literal | null; color: string }
 export const literalTypes = ['text', 'number', 'boolean', 'date', 'link', 'null', 'list'] as const;
-export function newColorRule(): ColorRule {
-  return { id: globalThis.crypto?.randomUUID?.() ?? `color-${Date.now()}-${Math.random()}`, property: null, operator: '=', operand: null, color: '#3788d8' };
+export function newColorRule(win: Window = activeWindow): ColorRule {
+  return { id: win.crypto?.randomUUID?.() ?? `color-${Date.now()}-${Math.random()}`, property: null, operator: '=', operand: null, color: '#3788d8' };
 }
 
 export function validLiteral(input: unknown, depth = 0): input is Literal {
-  if (!input || typeof input !== 'object' || depth > 8) return false;
-  const row = input as Record<string, unknown>;
+  if (!isRecord(input) || depth > 8) return false;
+  const row = input;
   switch (row.type) {
     case 'null': return true;
     case 'text': case 'date': return typeof row.value === 'string';
     case 'link': return typeof row.value === 'string' && (row.sourcePath === undefined || typeof row.sourcePath === 'string');
     case 'number': return typeof row.value === 'number' && Number.isFinite(row.value);
     case 'boolean': return typeof row.value === 'boolean';
-    case 'list': return Array.isArray(row.value) && row.value.every(item => validLiteral(item, depth + 1));
+    case 'list': {
+      if (!isUnknownArray(row.value)) return false;
+      for (const item of row.value) if (!validLiteral(item, depth + 1)) return false;
+      return true;
+    }
     default: return false;
   }
 }
@@ -47,11 +52,11 @@ export function nativeLiteral(app: App, literal: Literal): Value {
   }
 }
 
-export function validateColorRules(rules: ColorRule[], app: App): string | null {
+export function validateColorRules(rules: readonly unknown[], app: App): string | null {
   const ids = new Set<string>();
   for (const [index, rule] of rules.entries()) {
     const prefix = `Rule ${index + 1}: `;
-    if (!rule || typeof rule.id !== 'string' || !rule.id || ids.has(rule.id)) return prefix + 'rule IDs must be unique.';
+    if (!isRecord(rule) || typeof rule.id !== 'string' || !rule.id || ids.has(rule.id)) return prefix + 'rule IDs must be unique.';
     ids.add(rule.id);
     if (!isPropertyId(rule.property)) return prefix + 'choose a property.';
     if (rule.operator !== '=' && rule.operator !== 'contains') return prefix + 'choose = or contains.';
@@ -65,14 +70,24 @@ export function validateColorRules(rules: ColorRule[], app: App): string | null 
 /** Malformed rows are isolated: they never suppress events or other valid rules. */
 export function readColorRules(raw: unknown, app: App): { rules: ColorRule[]; errors: string[] } {
   if (raw == null) return { rules: [], errors: [] };
-  if (!Array.isArray(raw)) return { rules: [], errors: ['Event colors must be a list. Open Event colors to repair it.'] };
+  if (!isUnknownArray(raw)) return { rules: [], errors: ['Event colors must be a list. Open Event colors to repair it.'] };
   const rules: ColorRule[] = [], errors: string[] = [], ids = new Set<string>();
   for (const [index, row] of raw.entries()) {
     const error = validateColorRules([row], app);
-    if (error || ids.has(row.id)) { errors.push(`Event color rule ${index + 1} ignored: ${error ?? 'duplicate ID'}`); continue; }
-    ids.add(row.id); rules.push(JSON.parse(JSON.stringify(row)) as ColorRule);
+    if (error) { errors.push(`Event color rule ${index + 1} ignored: ${error}`); continue; }
+    // Re-establish the validated shape here: validation returning null is not a type predicate.
+    if (!isRecord(row) || typeof row.id !== 'string' || !isPropertyId(row.property)
+      || (row.operator !== '=' && row.operator !== 'contains') || !validLiteral(row.operand) || typeof row.color !== 'string') continue;
+    if (ids.has(row.id)) { errors.push(`Event color rule ${index + 1} ignored: duplicate ID`); continue; }
+    ids.add(row.id);
+    rules.push({ id: row.id, property: row.property, operator: row.operator, operand: cloneLiteral(row.operand), color: row.color });
   }
   return { rules, errors };
+}
+
+export function cloneLiteral(literal: Literal): Literal {
+  if (literal.type === 'list') return { type: 'list', value: literal.value.map(cloneLiteral) };
+  return { ...literal };
 }
 
 export function matchesColor(value: Value | null, operand: Value, operator: ColorRule['operator']): boolean {

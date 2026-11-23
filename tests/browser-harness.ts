@@ -1,3 +1,4 @@
+import { installDomHelpers } from './dom-helpers.mjs';
 import { TFile, StringValue, NullValue, type App, type BasesEntry, type BasesQueryResult, type BasesViewConfig, type QueryController } from 'obsidian';
 import { NosyCalendarView } from '../src/view';
 import { SerialSaves } from '../src/writeback';
@@ -5,6 +6,7 @@ import { ROLES_KEY } from '../src/roles';
 import { COLORS_KEY } from '../src/colors';
 import type { Calendar } from '@fullcalendar/core';
 
+installDomHelpers(document);
 const host = document.createElement('div'); host.id='calendar-test'; host.style.cssText='height:850px;width:1100px;max-width:100%;';document.body.append(host);
 const notes = [
   {name:'Meeting',scheduled:'2026-11-23T09:00',until:'2026-11-23T10:00',status:'Waiting',check:'2026-11-24T14:00',checkEnd:'2026-11-24T14:30'},

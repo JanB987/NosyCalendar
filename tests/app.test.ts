@@ -1,3 +1,4 @@
+import { installDomHelpers } from './dom-helpers.mjs';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
@@ -14,6 +15,7 @@ import { isoWeek } from '../src/iso-weeks';
 
 // Real view, editor DOM and FullCalendar; only the unavailable Obsidian host APIs are doubled.
 const dom = new JSDOM('<!doctype html><body></body>', { pretendToBeVisual: true });
+installDomHelpers(dom.window.document);
 const win = dom.window;
 for (const key of ['window', 'document', 'HTMLElement', 'Element', 'Node', 'MutationObserver', 'DOMParser'] as const) {
   Object.defineProperty(globalThis, key, { configurable: true, value: key === 'window' ? win : win[key] });

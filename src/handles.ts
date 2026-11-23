@@ -1,3 +1,4 @@
+import { detachedEl } from './dom';
 import type { CalendarOptions, EventContentArg } from '@fullcalendar/core';
 
 export const resizeRendering: CalendarOptions = {
@@ -15,24 +16,24 @@ export function eventClasses(info: EventContentArg): string[] {
 }
 
 export function eventContents(doc: Document, info: EventContentArg): { domNodes: HTMLElement[] } {
-  const title = doc.createElement('span');
+  const copy = detachedEl(doc, 'div'); copy.className = 'nosy-event-copy';
+  const title = copy.createSpan();
   title.className = 'fc-event-title';
   const noteTitle = typeof info.event.extendedProps.noteTitle === 'string' ? info.event.extendedProps.noteTitle : info.event.title;
   title.textContent = noteTitle;
-  const copy = doc.createElement('div'); copy.className = 'nosy-event-copy'; copy.append(title);
   if (info.timeText) {
-    const time = doc.createElement('span'); time.className = 'nosy-event-time'; time.textContent = info.timeText; copy.append(time);
+    const time = copy.createSpan(); time.className = 'nosy-event-time'; time.textContent = info.timeText; copy.append(time);
   }
   const domNodes: HTMLElement[] = [copy];
   if (typeof info.event.extendedProps.roleLabel === 'string' && info.event.extendedProps.roleLabel) {
-    const role = doc.createElement('span'); role.className = 'nosy-role-label';
+    const role = detachedEl(doc, 'span'); role.className = 'nosy-role-label';
     role.textContent = info.event.extendedProps.roleLabel;
     // The event's accessible label and tooltip already include the full role name.
     role.setAttribute('aria-hidden', 'true'); domNodes.push(role);
   }
   if (info.event.extendedProps.rolled) {
-    const rolled = doc.createElement('span'); rolled.className = 'nosy-rolled-label'; rolled.textContent = 'Rolled';
-    const original = doc.createElement('span'); original.className = 'nosy-original-dates';
+    const rolled = copy.createSpan(); rolled.className = 'nosy-rolled-label'; rolled.textContent = 'Rolled';
+    const original = copy.createSpan(); original.className = 'nosy-original-dates';
     original.textContent = `Original: ${String(info.event.extendedProps.originalDatesText)}`;
     copy.append(rolled, original);
   }
@@ -41,7 +42,7 @@ export function eventContents(doc: Document, info: EventContentArg): { domNodes:
       // FullCalendar v6 omits native handles for timed day-grid events and resliced overflow segments.
       // These fallback elements use its delegated native resizing interaction, not a separate drag engine.
       if ((edge === 'start' ? info.isStart && !info.isStartResizable : info.isEnd && !info.isEndResizable)) {
-        const handle = doc.createElement('span');
+        const handle = detachedEl(doc, 'span');
         handle.className = `fc-event-resizer fc-event-resizer-${edge} nosy-resize-fallback`;
         handle.title = `Resize ${edge}`;
         handle.setAttribute('aria-label', `Resize ${edge}`);

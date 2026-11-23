@@ -1,3 +1,4 @@
+import { installDomHelpers } from './dom-helpers.mjs';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
@@ -5,6 +6,7 @@ import { createRequire } from 'node:module';
 
 // Real FullCalendar modules with a headless DOM and synthetic geometry, not Obsidian/browser visual testing.
 const dom = new JSDOM('<!doctype html><html><body></body></html>', { pretendToBeVisual: true });
+installDomHelpers(dom.window.document);
 const win = dom.window;
 for (const key of ['window', 'document', 'HTMLElement', 'Element', 'Node', 'MutationObserver', 'DOMParser']) {
   globalThis[key] = key === 'window' ? win : win[key];
@@ -33,6 +35,23 @@ const { default: interaction } = await import('@fullcalendar/interaction');
 const require = createRequire(import.meta.url);
 const { resizeRendering, eventClasses, eventContents } = require('../.test-build/handles.cjs');
 after(() => dom.window.close());
+
+test('render-hook nodes remain detached in the requested document with labels, order and fallback attributes intact', () => {
+  const popout = new JSDOM('<!doctype html><body></body>'); installDomHelpers(popout.window.document);
+  try {
+    const info = { event: { title: 'Event', durationEditable: true, extendedProps: { noteTitle: '<Note>', roleLabel: 'Role', rolled: true, originalDatesText: '2026-11-20' } }, timeText: '09:00', isMirror: false, isStart: true, isEnd: true, isStartResizable: false, isEndResizable: false };
+    const { domNodes } = eventContents(popout.window.document, info);
+    assert.deepEqual(domNodes.map(el => el.className), ['nosy-event-copy', 'nosy-role-label', 'fc-event-resizer fc-event-resizer-start nosy-resize-fallback', 'fc-event-resizer fc-event-resizer-end nosy-resize-fallback']);
+    for (const node of domNodes) {
+      assert.equal(node.ownerDocument, popout.window.document); assert.equal(node.parentNode, null); assert.equal(node.isConnected, false);
+      for (const child of node.querySelectorAll('*')) assert.equal(child.ownerDocument, popout.window.document);
+    }
+    assert.deepEqual([...domNodes[0].children].map(el => el.className), ['fc-event-title', 'nosy-event-time', 'nosy-rolled-label', 'nosy-original-dates']);
+    assert.equal(domNodes[0].firstChild.textContent, '<Note>'); assert.equal(domNodes[1].getAttribute('aria-hidden'), 'true');
+    assert.equal(domNodes[2].getAttribute('aria-label'), 'Resize start');
+    assert.equal(eventContents(popout.window.document, { ...info, isMirror: true }).domNodes.some(el => el.classList.contains('fc-event-resizer')), false);
+  } finally { popout.window.close(); }
+});
 
 function render(view, events, extra = {}) {
   const host = document.createElement('div'); document.body.append(host);

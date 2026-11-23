@@ -19,6 +19,7 @@ await build({ entryPoints: ['tests/editor.test.ts'], outfile: '.test-build/edito
 await build({ entryPoints: ['tests/app.test.ts'], outfile: '.test-build/app.test.cjs', bundle: true, platform: 'node', format: 'cjs',
   external: ['jsdom'], alias: { obsidian: './tests/obsidian-stub.ts' } });
 await build({ entryPoints: ['src/handles.ts'], outfile: '.test-build/handles.cjs', bundle: true, platform: 'node', format: 'cjs' });
+await build({ entryPoints: ['tests/popout.test.ts'], outfile: '.test-build/popout.test.cjs', bundle: true, platform: 'node', format: 'cjs', external: ['jsdom'], alias: { obsidian: './tests/obsidian-stub.ts', '@fullcalendar/core': './tests/calendar-stub.ts', '@fullcalendar/daygrid': './tests/plugin-stub.ts', '@fullcalendar/timegrid': './tests/plugin-stub.ts', '@fullcalendar/multimonth': './tests/plugin-stub.ts', '@fullcalendar/interaction': './tests/plugin-stub.ts' } });
 await build({ entryPoints: ['tests/view.test.ts'], outfile: '.test-build/view.test.cjs', bundle: true, platform: 'node', format: 'cjs', alias: {
   obsidian: './tests/obsidian-stub.ts', '@fullcalendar/core': './tests/calendar-stub.ts',
   '@fullcalendar/daygrid': './tests/plugin-stub.ts', '@fullcalendar/timegrid': './tests/plugin-stub.ts',
@@ -26,7 +27,7 @@ await build({ entryPoints: ['tests/view.test.ts'], outfile: '.test-build/view.te
 } });
 for (const TZ of ['Europe/Berlin', 'UTC', 'America/New_York']) {
   console.log(`\nDate conversion checks: ${TZ}`);
-  const result = spawnSync(process.execPath, ['--test', 'tests/styles.test.mjs', '.test-build/style-layout.test.cjs', '.test-build/iso-weeks.test.cjs', '.test-build/colors.test.cjs', '.test-build/color-editor.test.cjs', '.test-build/dates.test.cjs', '.test-build/values.test.cjs', '.test-build/writeback.test.cjs', '.test-build/resize.test.cjs', '.test-build/roles.test.cjs', '.test-build/rolling.test.cjs', '.test-build/clock.test.cjs', '.test-build/editor.test.cjs', '.test-build/app.test.cjs', '.test-build/view.test.cjs', 'tests/rendering.test.mjs'], {
+  const result = spawnSync(process.execPath, ['--import', './tests/test-environment.mjs', '--test', 'tests/styles.test.mjs', '.test-build/style-layout.test.cjs', '.test-build/iso-weeks.test.cjs', '.test-build/colors.test.cjs', '.test-build/color-editor.test.cjs', '.test-build/dates.test.cjs', '.test-build/values.test.cjs', '.test-build/writeback.test.cjs', '.test-build/resize.test.cjs', '.test-build/roles.test.cjs', '.test-build/rolling.test.cjs', '.test-build/clock.test.cjs', '.test-build/editor.test.cjs', '.test-build/app.test.cjs', '.test-build/view.test.cjs', '.test-build/popout.test.cjs', 'tests/rendering.test.mjs'], {
     env: { ...process.env, TZ }, stdio: 'inherit'
   });
   if (result.status !== 0) process.exit(result.status ?? 1);

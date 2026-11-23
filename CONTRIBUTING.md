@@ -4,6 +4,8 @@ Use Node 22.14.0 (see `.node-version`) and npm. Source lives at the repository r
 
 ```sh
 npm ci
+npm run lint
+npm run check:publication
 npm test
 npm run check:browser
 npm run check:min-api
@@ -19,6 +21,10 @@ The browser checks require Chrome, Chromium or Edge. Set `BROWSER_EXECUTABLE` to
 `check:min-api` automatically installs its own locked Obsidian 1.10.0 declaration package under `tests/minimum-api/node_modules/`, avoiding incompatible peer requirements with the root Obsidian 1.14.4 API check (current when this release was prepared). No prefilled ignored files are needed. `npm run build` generates `styles.css`, notices and `dist/`; complete MIT project, FullCalendar Standard and Preact notices are embedded in `main.js` as well as provided separately.
 
 Tests use synthetic notes. Include a minimal reproduction, versions, platform and relevant errors in issues; remove private note content. User acceptance inside Obsidian is separate from automated browser checks. The author performs Obsidian testing.
+
+`npm run lint` uses pinned ESLint 9.39.5, typescript-eslint 8.73.0 and the official eslint-plugin-obsidianmd 0.6.0. ESLint 9 satisfies the official plugin's transitive peer requirements; ESLint 10 currently conflicts with them. The six targeted source rules are errors, run with real TypeScript type information, and include DOM creation, global/window context, unsafe arguments/member access and redundant assertions. The lint runner verifies that every production TypeScript file and manifest.json were visited with the required rules enabled. `check:publication` checks the exact manifest description and parses every declaration in all source/generated CSS, rejecting important declarations. These focused gates are not a claim of approval by the external community scanner.
+
+Two-document tests model Obsidian's Node helpers and window ownership. View/header ownership is tested at the render callback boundary with a calendar double; real FullCalendar rendering and gestures are covered separately in JSDOM and an isolated Chromium-family browser. Native Obsidian popout acceptance still requires author testing.
 
 ## Releases
 

@@ -1,3 +1,4 @@
+import { installDomHelpers } from './dom-helpers.mjs';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
@@ -7,8 +8,28 @@ import { CalendarRolesEditor, propertyCatalog, PropertyPicker } from '../src/rol
 import { newRole, type CalendarRole } from '../src/roles';
 
 const dom = new JSDOM('<!doctype html><body></body>', { pretendToBeVisual: true });
+installDomHelpers(dom.window.document);
 globalThis.document = dom.window.document;
 after(() => dom.window.close());
+
+test('role editor in a second document uses its window for new IDs while another window is focused', () => {
+  const popout = new JSDOM('<!doctype html><body></body>', { pretendToBeVisual: true });
+  installDomHelpers(popout.window.document);
+  Object.defineProperty(popout.window.crypto, 'randomUUID', { configurable: true, value: () => 'popout-role-id' });
+  const original = { ...newRole('Saved'), id: 'keep-saved-role', startProperty: 'note.end' as const };
+  const editor = new CalendarRolesEditor({} as App, [original], [], () => null, () => {});
+  popout.window.document.adoptNode(editor.modalEl);
+  editor.open();
+  try {
+    assert.equal(editor.contentEl.ownerDocument, popout.window.document);
+    for (const node of editor.contentEl.querySelectorAll('*')) assert.equal(node.ownerDocument, popout.window.document);
+    button(editor.contentEl, '+ Add role').click();
+    assert.deepEqual(editor.draft.map(role => role.id), ['keep-saved-role', 'popout-role-id']);
+    assert.deepEqual(original, { ...original, label: 'Saved' });
+    assert.deepEqual([...editor.contentEl.querySelectorAll('thead th')].map(el => el.textContent), ['Label', 'Start property', 'End property', 'Edge color', 'Roll past dates to today', 'Remove']);
+    button(editor.contentEl, 'Cancel').click();
+  } finally { editor.close(); popout.window.close(); }
+});
 const app = { vault: { getMarkdownFiles: () => [{ path: 'a.md' }, { path: 'b.md' }] }, metadataCache: {
   getFileCache: (file: { path: string }) => ({ frontmatter: file.path === 'a.md' ? { 'Exact CASE.With Spaces': '2026-11-23' } : { elsewhere: '2026-11-24' } })
 } } as unknown as App;
