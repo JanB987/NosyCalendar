@@ -87,6 +87,11 @@ Appearance controls are under **Style Settings → NosyCalendar**. They apply ac
 
 See CONTRIBUTING.md for reproducible setup/checks and CHANGELOG.md for releases. Report issues with Obsidian/NosyCalendar versions, reproduction steps and relevant errors.
 
+
+## Acknowledgments
+
+This calendar is based on [FullCalendar Standard](https://github.com/fullcalendar/fullcalendar). 
+
 ## License
 
 MIT. FullCalendar Standard and Preact retain their own notices; see THIRD-PARTY-NOTICES.txt.
